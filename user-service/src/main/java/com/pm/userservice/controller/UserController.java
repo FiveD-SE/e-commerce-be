@@ -3,6 +3,8 @@ package com.pm.userservice.controller;
 import com.pm.userservice.dto.UserDto;
 import com.pm.userservice.dto.response.collection.CollectionResponse;
 import com.pm.userservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
+@Tag(name = "User Management", description = "APIs for managing user profiles and information")
 public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -23,12 +26,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
+    @Operation(summary = "Get all users")
     public ResponseEntity<CollectionResponse<UserDto>> findAll() {
         log.info("Fetching all users");
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/{userId}")
+    @Operation(summary = "Get a user by ID")
     public ResponseEntity<UserDto> findById(
             @PathVariable @NotNull(message = "User ID must not be null") @Valid Integer userId) {
         log.info("Fetching user with ID: {}", userId);
@@ -36,6 +41,7 @@ public class UserController {
     }
 
     @PostMapping
+    @Operation(summary = "Create a new user")
     public ResponseEntity<UserDto> save(
             @RequestBody @NotNull(message = "Input must not be null") @Valid UserDto userDto) {
         log.info("Saving new user: {}", userDto.getEmail());
@@ -44,6 +50,7 @@ public class UserController {
     }
 
     @PutMapping
+    @Operation(summary = "Update an existing user")
     public ResponseEntity<UserDto> update(
             @RequestBody @NotNull(message = "Input must not be null") @Valid UserDto userDto) {
         log.info("Updating user: {}", userDto.getEmail());
@@ -51,6 +58,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
+    @Operation(summary = "Update a user by ID")
     public ResponseEntity<UserDto> update(
             @PathVariable @NotNull(message = "User ID must not be null") @Valid Integer userId,
             @RequestBody @NotNull(message = "Input must not be null") @Valid UserDto userDto) {
@@ -59,6 +67,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
+    @Operation(summary = "Delete a user by ID")
     public ResponseEntity<Void> deleteById(
             @PathVariable @NotNull(message = "User ID must not be null") @Valid Integer userId) {
         log.info("Deleting user with ID: {}", userId);
@@ -67,6 +76,7 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}")
+    @Operation(summary = "Get a user by username")
     public ResponseEntity<UserDto> findByUsername(
             @PathVariable @NotNull(message = "Username must not be null") @Valid String username) {
         log.info("Fetching user with username: {}", username);
