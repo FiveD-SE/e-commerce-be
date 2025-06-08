@@ -3,6 +3,8 @@ package com.pm.userservice.controller;
 import com.pm.userservice.dto.CredentialDto;
 import com.pm.userservice.dto.response.collection.CollectionResponse;
 import com.pm.userservice.service.CredentialService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +18,20 @@ import java.net.URI;
 @RequestMapping("/api/credentials")
 @Slf4j
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "APIs for managing user credentials and authentication")
 public class CredentialController {
 
     private final CredentialService credentialService;
 
     @GetMapping
+    @Operation(summary = "Get all credentials")
     public ResponseEntity<CollectionResponse<CredentialDto>> findAll() {
         log.info("Fetching all credentials");
         return ResponseEntity.ok(credentialService.findAll());
     }
 
     @GetMapping("/{credentialId}")
+    @Operation(summary = "Get a credential by ID")
     public ResponseEntity<CredentialDto> findById(
             @PathVariable @NotNull(message = "Credential ID must not be null") @Valid Integer credentialId) {
         log.info("Fetching credential with ID: {}", credentialId);
@@ -34,6 +39,7 @@ public class CredentialController {
     }
 
     @PostMapping
+    @Operation(summary = "Create a new credential")
     public ResponseEntity<CredentialDto> save(
             @RequestBody @NotNull(message = "Input must not be null") @Valid CredentialDto credentialDto) {
         log.info("Saving new credential: {}", credentialDto.getUsername());
@@ -42,6 +48,7 @@ public class CredentialController {
     }
 
     @PutMapping
+    @Operation(summary = "Update an existing credential")
     public ResponseEntity<CredentialDto> update(
             @RequestBody @NotNull(message = "Input must not be null") @Valid CredentialDto credentialDto) {
         log.info("Updating credential: {}", credentialDto.getUsername());
@@ -49,6 +56,7 @@ public class CredentialController {
     }
 
     @PutMapping("/{credentialId}")
+    @Operation(summary = "Update a credential by ID")
     public ResponseEntity<CredentialDto> update(
             @PathVariable @NotNull(message = "Credential ID must not be null") @Valid Integer credentialId,
             @RequestBody @NotNull(message = "Input must not be null") @Valid CredentialDto credentialDto) {
@@ -57,6 +65,7 @@ public class CredentialController {
     }
 
     @DeleteMapping("/{credentialId}")
+    @Operation(summary = "Delete a credential by ID")
     public ResponseEntity<Void> deleteById(
             @PathVariable @NotNull(message = "Credential ID must not be null") @Valid Integer credentialId) {
         log.info("Deleting credential with ID: {}", credentialId);
@@ -65,6 +74,7 @@ public class CredentialController {
     }
 
     @GetMapping("/username/{username}")
+    @Operation(summary = "Get a credential by username")
     public ResponseEntity<CredentialDto> findByUsername(
             @PathVariable @NotNull(message = "Username must not be null") @Valid String username) {
         log.info("Fetching credential with username: {}", username);

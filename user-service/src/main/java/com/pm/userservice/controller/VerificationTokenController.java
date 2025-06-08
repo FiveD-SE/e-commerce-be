@@ -3,6 +3,8 @@ package com.pm.userservice.controller;
 import com.pm.userservice.dto.VerificationTokenDto;
 import com.pm.userservice.dto.response.collection.CollectionResponse;
 import com.pm.userservice.service.VerificationTokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +18,20 @@ import java.net.URI;
 @RequestMapping("/api/verificationTokens")
 @Slf4j
 @RequiredArgsConstructor
+@Tag(name = "Email Verification", description = "APIs for managing email verification tokens")
 public class VerificationTokenController {
 
     private final VerificationTokenService verificationTokenService;
 
     @GetMapping
+    @Operation(summary = "Get all verification tokens")
     public ResponseEntity<CollectionResponse<VerificationTokenDto>> findAll() {
         log.info("Fetching all verification tokens");
         return ResponseEntity.ok(verificationTokenService.findAll());
     }
 
     @GetMapping("/{verificationTokenId}")
+    @Operation(summary = "Get a verification token by ID")
     public ResponseEntity<VerificationTokenDto> findById(
             @PathVariable @NotNull(message = "Verification Token ID must not be null") @Valid Integer verificationTokenId) {
         log.info("Fetching verification token with ID: {}", verificationTokenId);
@@ -34,6 +39,7 @@ public class VerificationTokenController {
     }
 
     @PostMapping
+    @Operation(summary = "Create a new verification token")
     public ResponseEntity<VerificationTokenDto> save(
             @RequestBody @NotNull(message = "Input must not be null") @Valid VerificationTokenDto verificationTokenDto) {
         log.info("Saving new verification token: {}", verificationTokenDto.getToken());
@@ -42,6 +48,7 @@ public class VerificationTokenController {
     }
 
     @PutMapping
+    @Operation(summary = "Update a verification token")
     public ResponseEntity<VerificationTokenDto> update(
             @RequestBody @NotNull(message = "Input must not be null") @Valid VerificationTokenDto verificationTokenDto) {
         log.info("Updating verification token: {}", verificationTokenDto.getToken());
@@ -49,6 +56,7 @@ public class VerificationTokenController {
     }
 
     @PutMapping("/{verificationTokenId}")
+    @Operation(summary = "Update a verification token by ID")
     public ResponseEntity<VerificationTokenDto> update(
             @PathVariable @NotNull(message = "Verification Token ID must not be null") @Valid Integer verificationTokenId,
             @RequestBody @NotNull(message = "Input must not be null") @Valid VerificationTokenDto verificationTokenDto) {
@@ -57,6 +65,7 @@ public class VerificationTokenController {
     }
 
     @DeleteMapping("/{verificationTokenId}")
+    @Operation(summary = "Delete a verification token by ID")
     public ResponseEntity<Void> deleteById(
             @PathVariable @NotNull(message = "Verification Token ID must not be null") @Valid Integer verificationTokenId) {
         log.info("Deleting verification token with ID: {}", verificationTokenId);
