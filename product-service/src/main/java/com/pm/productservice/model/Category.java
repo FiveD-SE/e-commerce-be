@@ -1,38 +1,41 @@
 package com.pm.productservice.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.util.Set;
+import lombok.*;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "categories", schema = "category_service")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
-public class Category {
+public final class Category extends AbstractMappedEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id", unique = true, nullable = false, updatable = false)
-    private Integer categoryId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "BINARY(16)")
+    private UUID id;
 
-    @Column(name = "category_title")
-    private String categoryTitle;
+    @Column(name = "name", nullable = false, length = 255)
+    private String name;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "parent_id", columnDefinition = "BINARY(16)")
+    private UUID parentId;
 
-    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Category> subCategories;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private CategoryStatus status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "parent_category_id")
-    private Category parentCategory;
+    @Column(name = "display_order", nullable = false)
+    private Integer displayOrder;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Product> products;
+    @Column(name = "attributes", columnDefinition = "JSON")
+    private String attributes;
+
+
 }

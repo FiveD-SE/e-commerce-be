@@ -4,7 +4,7 @@ services:
     ports:
       - "${PRODUCT_SERVICE_PORT}:8500"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/product_service?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/product_service?createDatabaseIfNotExist=true&characterEncoding=UTF-8&useUnicode=true&allowMultiQueries=true
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-root}
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-secret}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -39,6 +39,9 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_CHARSET=utf8mb4
+      - MYSQL_COLLATION=utf8mb4_unicode_ci
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - mysql-data:/var/lib/mysql
     networks:

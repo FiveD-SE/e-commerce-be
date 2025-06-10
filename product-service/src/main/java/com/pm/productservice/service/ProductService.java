@@ -3,11 +3,12 @@ package com.pm.productservice.service;
 import com.pm.productservice.dto.ProductDto;
 import com.pm.productservice.dto.response.collection.CollectionResponse;
 
+import java.util.UUID;
+
 public interface ProductService {
     CollectionResponse<ProductDto> findAll();
-    ProductDto findById(Integer productId);
+    ProductDto findById(UUID id);
     ProductDto save(ProductDto productDto);
-    ProductDto update(ProductDto productDto);
-    ProductDto update(Integer productId, ProductDto productDto);
-    void deleteById(Integer productId);
+    ProductDto update(UUID id, ProductDto productDto);
+    void deleteById(UUID id);
 }

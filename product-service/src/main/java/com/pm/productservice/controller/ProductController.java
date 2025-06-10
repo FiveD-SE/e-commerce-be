@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/products")
@@ -30,46 +31,38 @@ public class ProductController {
         return ResponseEntity.ok(productService.findAll());
     }
 
-    @GetMapping("/{productId}")
+    @GetMapping("/{id}")
     @Operation(summary = "Get a product by ID")
     public ResponseEntity<ProductDto> findById(
-            @PathVariable @NotNull(message = "Product ID must not be null") @Valid Integer productId) {
-        log.info("Fetching product with ID: {}", productId);
-        return ResponseEntity.ok(productService.findById(productId));
+            @PathVariable @NotNull(message = "Product ID must not be null") @Valid UUID id) {
+        log.info("Fetching product with ID: {}", id);
+        return ResponseEntity.ok(productService.findById(id));
     }
 
     @PostMapping
     @Operation(summary = "Create a new product")
     public ResponseEntity<ProductDto> save(
             @RequestBody @NotNull(message = "Input must not be null") @Valid ProductDto productDto) {
-        log.info("Saving new product: {}", productDto.getProductTitle());
+        log.info("Saving new product: {}", productDto.getName());
         ProductDto savedProduct = productService.save(productDto);
-        return ResponseEntity.created(URI.create("/api/v3/products/" + savedProduct.getProductId())).body(savedProduct);
+        return ResponseEntity.created(URI.create("/api/products/" + savedProduct.getId())).body(savedProduct);
     }
 
-    @PutMapping
-    @Operation(summary = "Update an existing product")
-    public ResponseEntity<ProductDto> update(
-            @RequestBody @NotNull(message = "Input must not be null") @Valid ProductDto productDto) {
-        log.info("Updating product: {}", productDto.getProductTitle());
-        return ResponseEntity.ok(productService.update(productDto));
-    }
-
-    @PutMapping("/{productId}")
+    @PutMapping("/{id}")
     @Operation(summary = "Update a product by ID")
     public ResponseEntity<ProductDto> update(
-            @PathVariable @NotNull(message = "Product ID must not be null") @Valid Integer productId,
+            @PathVariable @NotNull(message = "Product ID must not be null") @Valid UUID id,
             @RequestBody @NotNull(message = "Input must not be null") @Valid ProductDto productDto) {
-        log.info("Updating product with ID: {}", productId);
-        return ResponseEntity.ok(productService.update(productId, productDto));
+        log.info("Updating product with ID: {}", id);
+        return ResponseEntity.ok(productService.update(id, productDto));
     }
 
-    @DeleteMapping("/{productId}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "Delete a product by ID")
     public ResponseEntity<Void> deleteById(
-            @PathVariable @NotNull(message = "Product ID must not be null") @Valid Integer productId) {
-        log.info("Deleting product with ID: {}", productId);
-        productService.deleteById(productId);
+            @PathVariable @NotNull(message = "Product ID must not be null") @Valid UUID id) {
+        log.info("Deleting product with ID: {}", id);
+        productService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,40 +1,45 @@
 package com.pm.productservice.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
-@Table(name = "products")
+@Table(name = "products", schema = "product_service")
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true, exclude = {"category"})
 @Data
 @Builder
-public class Product {
+public final class Product extends AbstractMappedEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id", unique = true, nullable = false, updatable = false)
-    private Integer productId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "BINARY(16)")
+    private UUID id;
 
-    @Column(name = "product_title")
-    private String productTitle;
-
-    @Column(name = "image_url")
-    private String imageUrl;
-
-    @Column(unique = true)
+    @Column(name = "sku", unique = true, nullable = false, length = 50)
     private String sku;
 
-    @Column(name = "price_unit", columnDefinition = "decimal")
-    private Double priceUnit;
+    @Column(name = "name", nullable = false, length = 255)
+    private String name;
 
-    @Column(name = "quantity")
-    private Integer quantity;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @Column(name = "price", nullable = false, columnDefinition = "DECIMAL(10,2)")
+    private Double price;
+
+    @Column(name = "category_id", nullable = false, columnDefinition = "BINARY(16)")
+    private UUID categoryId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private ProductStatus status;
+
+    @Column(name = "attributes", columnDefinition = "JSON")
+    private String attributes;
 }
