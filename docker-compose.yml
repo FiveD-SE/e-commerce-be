@@ -1,0 +1,133 @@
+version: "3.8"
+
+services:
+  # User Service
+  user-service:
+    build: ./user-service
+    ports:
+      - "${USER_SERVICE_PORT:-8700}:8700"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://user-mysql:3306/user_service?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-secret}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_FLYWAY_ENABLED=true
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+      - LOG_FILE_PATH=${LOG_FILE_PATH:-/app/logs}
+    depends_on:
+      user-mysql:
+        condition: service_healthy
+    volumes:
+      - ./user-service/logs:/app/logs
+    networks:
+      - e-commerce-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:8700/user-service/actuator/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # User Service MySQL
+  user-mysql:
+    image: mysql:8.0
+    ports:
+      - "${USER_MYSQL_PORT:-3306}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-secret}
+      - MYSQL_DATABASE=user_service
+    volumes:
+      - user-mysql-data:/var/lib/mysql
+    networks:
+      - e-commerce-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p${MYSQL_ROOT_PASSWORD:-secret}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Product Service
+  product-service:
+    build: ./product-service
+    ports:
+      - "${PRODUCT_SERVICE_PORT:-8500}:8500"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://product-mysql:3306/product_service?createDatabaseIfNotExist=true&characterEncoding=UTF-8&useUnicode=true&allowMultiQueries=true
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-secret}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_FLYWAY_ENABLED=true
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+      - LOG_FILE_PATH=${LOG_FILE_PATH:-/app/logs}
+    depends_on:
+      product-mysql:
+        condition: service_healthy
+    volumes:
+      - ./product-service/logs:/app/logs
+    networks:
+      - e-commerce-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:8500/product-service/actuator/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Product Service MySQL
+  product-mysql:
+    image: mysql:8.0
+    ports:
+      - "${PRODUCT_MYSQL_PORT:-3307}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-secret}
+      - MYSQL_DATABASE=product_service
+      - MYSQL_CHARSET=utf8mb4
+      - MYSQL_COLLATION=utf8mb4_unicode_ci
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - product-mysql-data:/var/lib/mysql
+    networks:
+      - e-commerce-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p${MYSQL_ROOT_PASSWORD:-secret}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  e-commerce-network:
+    driver: bridge
+
+volumes:
+  user-mysql-data:
+  product-mysql-data:
