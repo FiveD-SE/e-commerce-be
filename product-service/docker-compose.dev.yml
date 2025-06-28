@@ -1,0 +1,48 @@
+services:
+  product-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: product-service-dev
+    ports:
+      - "${PRODUCT_SERVICE_PORT:-8501}:${SERVER_PORT:-8501}"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SERVER_PORT=${SERVER_PORT:-8501}
+      - LOG_FILE_PATH=${LOG_FILE_PATH:-/app/logs}
+      - EUREKA_CLIENT_ENABLED=false
+      - SPRING_FLYWAY_ENABLED=false
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      # H2 Database Configuration
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:product_service;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.h2.Driver
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.H2Dialect
+    volumes:
+      - ./logs:/app/logs
+      - product-service-dev-data:/app/data
+    networks:
+      - e-commerce-dev-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:${SERVER_PORT:-8501}/product-service/actuator/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+networks:
+  e-commerce-dev-network:
+    driver: bridge
+    name: e-commerce-dev-network
+
+volumes:
+  product-service-dev-data:
+    driver: local

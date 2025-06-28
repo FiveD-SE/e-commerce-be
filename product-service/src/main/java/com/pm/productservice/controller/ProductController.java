@@ -2,16 +2,22 @@ package com.pm.productservice.controller;
 
 import com.pm.productservice.dto.ProductDto;
 import com.pm.productservice.dto.response.collection.CollectionResponse;
+import com.pm.productservice.model.ProductStatus;
 import com.pm.productservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.UUID;
 
@@ -25,10 +31,83 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    @Operation(summary = "Get all products")
-    public ResponseEntity<CollectionResponse<ProductDto>> findAll() {
-        log.info("Fetching all products");
-        return ResponseEntity.ok(productService.findAll());
+    @Operation(summary = "Get products with optional filtering and pagination")
+    public ResponseEntity<CollectionResponse<ProductDto>> findAll(
+            @Parameter(description = "Search term for product name, description, or SKU")
+            @RequestParam(value = "search", required = false) String search,
+            
+            @Parameter(description = "Filter by category ID")
+            @RequestParam(value = "categoryId", required = false) UUID categoryId,
+            
+            @Parameter(description = "Filter by brand ID")
+            @RequestParam(value = "brandId", required = false) UUID brandId,
+            
+            @Parameter(description = "Filter by product status")
+            @RequestParam(value = "status", required = false) ProductStatus status,
+            
+            @Parameter(description = "Minimum price filter")
+            @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
+            
+            @Parameter(description = "Maximum price filter")
+            @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
+            
+            @Parameter(description = "Page number (0-based)")
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            
+            @Parameter(description = "Page size")
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            
+            @Parameter(description = "Sort field")
+            @RequestParam(value = "sort", defaultValue = "name") String sort,
+            
+            @Parameter(description = "Sort direction (asc/desc)")
+            @RequestParam(value = "direction", defaultValue = "asc") String direction) {
+        
+        log.info("Fetching products with filters - search: {}, categoryId: {}, brandId: {}, status: {}, minPrice: {}, maxPrice: {}, page: {}, size: {}", 
+                search, categoryId, brandId, status, minPrice, maxPrice, page, size);
+        
+        Sort.Direction sortDirection = "desc".equalsIgnoreCase(direction) ? 
+                Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sort));
+        
+        CollectionResponse<ProductDto> response = productService.findWithFilters(search, categoryId, brandId, status, minPrice, maxPrice, pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    @Operation(summary = "Get products by category")
+    public ResponseEntity<CollectionResponse<ProductDto>> findByCategory(
+            @PathVariable @NotNull(message = "Category ID must not be null") UUID categoryId,
+            @Parameter(description = "Page number (0-based)")
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @Parameter(description = "Page size")
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        
+        log.info("Fetching products for category ID: {}, page: {}, size: {}", categoryId, page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name"));
+        return ResponseEntity.ok(productService.findByCategory(categoryId, pageable));
+    }
+
+    @GetMapping("/brand/{brandId}")
+    @Operation(summary = "Get products by brand")
+    public ResponseEntity<CollectionResponse<ProductDto>> findByBrand(
+            @PathVariable @NotNull(message = "Brand ID must not be null") UUID brandId,
+            @Parameter(description = "Page number (0-based)")
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @Parameter(description = "Page size")
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        
+        log.info("Fetching products for brand ID: {}, page: {}, size: {}", brandId, page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name"));
+        return ResponseEntity.ok(productService.findByBrand(brandId, pageable));
+    }
+
+    @GetMapping("/sku/{sku}")
+    @Operation(summary = "Get a product by SKU")
+    public ResponseEntity<ProductDto> findBySku(
+            @PathVariable @NotNull(message = "SKU must not be null") String sku) {
+        log.info("Fetching product with SKU: {}", sku);
+        return ResponseEntity.ok(productService.findBySku(sku));
     }
 
     @GetMapping("/{id}")
