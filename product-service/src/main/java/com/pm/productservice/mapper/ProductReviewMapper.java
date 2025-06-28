@@ -1,7 +1,7 @@
 package com.pm.productservice.mapper;
 
-import com.pm.productservice.dto.CategoryDto;
-import com.pm.productservice.model.Category;
+import com.pm.productservice.dto.ProductReviewDto;
+import com.pm.productservice.model.ProductReview;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -11,19 +11,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Mapper(componentModel = "spring")
-public interface CategoryMapper {
-    @Mapping(target = "parentId", source = "parentId")
-    @Mapping(target = "parentName", ignore = true)
-    @Mapping(target = "children", ignore = true)
-    @Mapping(target = "productCount", ignore = true)
-    CategoryDto toDTO(Category category);
+public interface ProductReviewMapper {
     
-    @Mapping(target = "parentId", source = "parentId")
-    @Mapping(target = "id", ignore = true)
-    Category toEntity(CategoryDto categoryDto);
+    ProductReviewDto toDTO(ProductReview productReview);
     
     @Mapping(target = "id", ignore = true)
-    void updateEntityFromDto(CategoryDto categoryDto, @MappingTarget Category category);
+    ProductReview toEntity(ProductReviewDto productReviewDto);
+    
+    @Mapping(target = "id", ignore = true)
+    void updateEntityFromDto(ProductReviewDto productReviewDto, @MappingTarget ProductReview productReview);
     
     // Conversion methods
     default LocalDateTime map(Instant instant) {
@@ -33,4 +29,4 @@ public interface CategoryMapper {
     default Instant map(LocalDateTime localDateTime) {
         return localDateTime != null ? localDateTime.toInstant(ZoneOffset.UTC) : null;
     }
-}
+} 
