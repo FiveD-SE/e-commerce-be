@@ -1,0 +1,73 @@
+version: "3.8"
+
+services:
+  # Payment Service
+  payment-service:
+    build: .
+    ports:
+      - "${PAYMENT_SERVICE_PORT:-8800}:8800"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://payment-mysql:3306/payment_service?createDatabaseIfNotExist=true&characterEncoding=UTF-8&useUnicode=true&allowMultiQueries=true
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-secret}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_FLYWAY_ENABLED=true
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:-http://eureka-server:8761/eureka/}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+      - LOG_FILE_PATH=${LOG_FILE_PATH:-/app/logs}
+    depends_on:
+      payment-mysql:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - payment-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:8800/payment-service/actuator/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Payment Service MySQL
+  payment-mysql:
+    image: mysql:8.0
+    ports:
+      - "${PAYMENT_MYSQL_PORT:-3310}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-secret}
+      - MYSQL_DATABASE=payment_service
+      - MYSQL_CHARSET=utf8mb4
+      - MYSQL_COLLATION=utf8mb4_unicode_ci
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - payment-mysql-data:/var/lib/mysql
+    networks:
+      - payment-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p${MYSQL_ROOT_PASSWORD:-secret}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  payment-network:
+    driver: bridge
+
+volumes:
+  payment-mysql-data:

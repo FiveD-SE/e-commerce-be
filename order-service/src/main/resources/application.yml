@@ -85,3 +85,12 @@ logging:
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Service Integration Configuration
+services:
+  payment:
+    url: ${PAYMENT_SERVICE_URL:http://payment-service:8800/payment-service}
+  cart:
+    url: ${CART_SERVICE_URL:http://cart-service:8300/cart-service}
+  product:
+    url: ${PRODUCT_SERVICE_URL:http://product-service:8500/product-service}

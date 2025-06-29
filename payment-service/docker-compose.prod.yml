@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  payment-service:
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_JPA_SHOW_SQL=false
+      - LOGGING_LEVEL_COM_PM_PAYMENTSERVICE=INFO
+      - LOGGING_LEVEL_ROOT=WARN
+      - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,metrics,prometheus
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+
+  payment-mysql:
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    volumes:
+      - payment-mysql-prod-data:/var/lib/mysql
+
+volumes:
+  payment-mysql-prod-data:
+    external: true

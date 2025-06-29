@@ -13,6 +13,20 @@ import java.util.List;
 @Data
 @Builder
 public class CollectionResponse<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private List<T> data;
-    private int totalElements;
-} 
+    private long totalElements;
+    private int totalPages;
+    private int currentPage;
+    private int pageSize;
+
+    // Convenience constructor for simple lists without pagination
+    public CollectionResponse(List<T> data) {
+        this.data = data;
+        this.totalElements = data != null ? data.size() : 0;
+        this.totalPages = 1;
+        this.currentPage = 0;
+        this.pageSize = (int) this.totalElements;
+    }
+}

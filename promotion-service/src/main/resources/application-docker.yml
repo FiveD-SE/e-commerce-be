@@ -1,0 +1,142 @@
+server:
+  port: 8710
+  servlet:
+    context-path: /promotion-service
+
+spring:
+  application:
+    name: promotion-service
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://promotion-mysql:3306/promotion_service?createDatabaseIfNotExist=true&characterEncoding=UTF-8&useUnicode=true&allowMultiQueries=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:secret}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:false}
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          time_zone: UTC
+
+  flyway:
+    enabled: ${SPRING_FLYWAY_ENABLED:true}
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+  # Redis Configuration for Caching
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka-server:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:promotion-service}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+  show-actuator: true
+
+logging:
+  level:
+    com.pm.promotionservice: INFO
+    org.springframework.web: INFO
+  file:
+    name: ${LOG_FILE_PATH:/app/logs}/promotion-service.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Promotion Service Configuration
+promotion:
+  validation:
+    max-uses-per-user: ${PROMOTION_VALIDATION_MAX_USES_PER_USER:10}
+    max-discount-percentage: ${PROMOTION_VALIDATION_MAX_DISCOUNT_PERCENTAGE:100}
+    max-discount-amount: ${PROMOTION_VALIDATION_MAX_DISCOUNT_AMOUNT:10000}
+    min-order-amount: ${PROMOTION_VALIDATION_MIN_ORDER_AMOUNT:1}
+    max-code-length: ${PROMOTION_VALIDATION_MAX_CODE_LENGTH:50}
+    code-pattern: "^[A-Z0-9_-]+$"
+
+  cache:
+    enabled: ${PROMOTION_CACHE_ENABLED:true}
+    ttl: ${PROMOTION_CACHE_TTL:300}
+    max-size: ${PROMOTION_CACHE_MAX_SIZE:1000}
+
+  auto-apply:
+    enabled: ${PROMOTION_AUTO_APPLY_ENABLED:true}
+    max-promotions: ${PROMOTION_AUTO_APPLY_MAX_PROMOTIONS:5}
+
+  stock:
+    low-threshold: ${PROMOTION_STOCK_LOW_THRESHOLD:10}
+    auto-deactivate-when-empty: ${PROMOTION_STOCK_AUTO_DEACTIVATE_WHEN_EMPTY:true}
+
+  cleanup:
+    expired-promotions: ${PROMOTION_CLEANUP_EXPIRED_PROMOTIONS:true}
+    cleanup-interval: ${PROMOTION_CLEANUP_INTERVAL:3600}
+
+# Feign Client Configuration
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: ${FEIGN_CLIENT_CONNECT_TIMEOUT:5000}
+        readTimeout: ${FEIGN_CLIENT_READ_TIMEOUT:10000}
+        loggerLevel: basic
+      payment-service:
+        connectTimeout: ${FEIGN_CLIENT_PAYMENT_SERVICE_CONNECT_TIMEOUT:5000}
+        readTimeout: ${FEIGN_CLIENT_PAYMENT_SERVICE_READ_TIMEOUT:15000}
+      order-service:
+        connectTimeout: ${FEIGN_CLIENT_ORDER_SERVICE_CONNECT_TIMEOUT:5000}
+        readTimeout: ${FEIGN_CLIENT_ORDER_SERVICE_READ_TIMEOUT:10000}
+
+# Circuit Breaker Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      payment-service:
+        registerHealthIndicator: true
+        slidingWindowSize: ${RESILIENCE4J_CIRCUITBREAKER_PAYMENT_SERVICE_SLIDING_WINDOW_SIZE:10}
+        minimumNumberOfCalls: ${RESILIENCE4J_CIRCUITBREAKER_PAYMENT_SERVICE_MINIMUM_NUMBER_OF_CALLS:5}
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: ${RESILIENCE4J_CIRCUITBREAKER_PAYMENT_SERVICE_WAIT_DURATION_IN_OPEN_STATE:5s}
+        failureRateThreshold: ${RESILIENCE4J_CIRCUITBREAKER_PAYMENT_SERVICE_FAILURE_RATE_THRESHOLD:50}
+        eventConsumerBufferSize: 10
