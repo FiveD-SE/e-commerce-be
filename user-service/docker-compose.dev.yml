@@ -1,0 +1,43 @@
+services:
+  user-service:
+    build: .
+    container_name: user-service-dev
+    ports:
+      - "${USER_SERVICE_PORT:-8700}:8700"
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - SERVER_PORT=8700
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:userservice_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.h2.Driver
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.H2Dialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_H2_CONSOLE_ENABLED=true
+      - SPRING_H2_CONSOLE_PATH=/h2-console
+      - SPRING_FLYWAY_ENABLED=false
+      - EUREKA_CLIENT_ENABLED=false
+      - SPRING_CLOUD_CONFIG_ENABLED=false
+      - LOG_FILE_PATH=/app/logs
+      - LOGGING_LEVEL_COM_PM_USERSERVICE=DEBUG
+    networks:
+      - e-commerce-network
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:8700/user-service/actuator/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+networks:
+  e-commerce-network:
+    driver: bridge
+    name: e-commerce-network
