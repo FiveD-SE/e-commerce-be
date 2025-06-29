@@ -1,0 +1,46 @@
+# Build artifacts
+target/
+!target/*.jar
+*.class
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Test files
+src/test/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Documentation
+README.md
+*.md
+
+# Scripts
+*.sh
+
+# Maven wrapper (optional - can be included for consistency)
+.mvn/wrapper/maven-wrapper.jar
+
+# Temporary files
+tmp/
+temp/ 

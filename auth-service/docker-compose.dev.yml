@@ -1,0 +1,109 @@
+services:
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auth-service-dev
+    ports:
+      - "${AUTH_SERVICE_PORT:-8600}:${SERVER_PORT:-8600}"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SERVER_PORT=${SERVER_PORT:-8600}
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:auth_service_dev;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.h2.Driver
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_FLYWAY_ENABLED=false
+      - SPRING_H2_CONSOLE_ENABLED=true
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+      - JWT_SECRET=mySecretJWTKeyForAuthServiceDevelopment123456789
+      - JWT_EXPIRATION=86400000
+      - JWT_REFRESH_EXPIRATION=604800000
+      - OTP_EXPIRATION=300
+      - OTP_MAX_ATTEMPTS=3
+      - OTP_RESEND_COOLDOWN=60
+      - SMTP_HOST=mailhog
+      - SMTP_PORT=1025
+      - SMTP_USERNAME=
+      - SMTP_PASSWORD=
+      - SMS_API_KEY=test-sms-key
+      - SMS_API_URL=http://mock-sms/send
+      - SMS_SENDER=ECOMMERCE-DEV
+      - USER_SERVICE_URL=http://user-service:8502/user-service
+      - EUREKA_CLIENT_ENABLED=false
+      - SPRING_ZIPKIN_BASE_URL=
+      - LOG_FILE_PATH=/app/logs
+      - SERVICES_USER_SERVICE_MOCK_ENABLED=true
+      - SERVICES_NOTIFICATION_SERVICE_MOCK_ENABLED=true
+    depends_on:
+      redis:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - e-commerce-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:${SERVER_PORT:-8600}/auth-service/actuator/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+
+  # Redis for JWT tokens and session management (simplified for dev)
+  redis:
+    image: redis:7-alpine
+    container_name: auth-service-redis-dev
+    ports:
+      - "${REDIS_PORT:-6380}:6379"
+    command: redis-server --appendonly no
+    networks:
+      - e-commerce-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # MailHog for email testing
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: auth-service-mailhog-dev
+    ports:
+      - "1025:1025" # SMTP server
+      - "8025:8025" # Web UI
+    networks:
+      - e-commerce-network
+    restart: unless-stopped
+
+  # Redis Commander for Redis management
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: auth-service-redis-commander-dev
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - e-commerce-network
+    restart: unless-stopped
+
+networks:
+  e-commerce-network:
+    driver: bridge
+    name: e-commerce-network
