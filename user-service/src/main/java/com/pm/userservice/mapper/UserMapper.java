@@ -12,16 +12,18 @@ import org.mapstruct.factory.Mappers;
         componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.ERROR,
-        uses = {AddressMapper.class}
+        uses = {AddressMapper.class, WishlistMapper.class}
 )
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mapping(source = "addresses", target = "addressDtos")
+    @Mapping(source = "wishlists", target = "wishlistDtos")
     @Mapping(source = "credential.credentialId", target = "credentialId")
     UserDto toDto(User user);
 
     @Mapping(source = "addressDtos", target = "addresses")
-    @Mapping(source = "credentialId", target = "credential.credentialId")
+    @Mapping(source = "wishlistDtos", target = "wishlists")
+    @Mapping(target = "credential", ignore = true)
     User toEntity(UserDto userDto);
 }

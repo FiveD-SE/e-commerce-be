@@ -1,0 +1,5 @@
+ALTER TABLE users 
+ADD COLUMN email_subscription BOOLEAN DEFAULT FALSE,
+ADD COLUMN sms_subscription BOOLEAN DEFAULT FALSE,
+ADD COLUMN marketing_consent BOOLEAN DEFAULT FALSE,
+ADD COLUMN newsletter_subscription BOOLEAN DEFAULT FALSE; 

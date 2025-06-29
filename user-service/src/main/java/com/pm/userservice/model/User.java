@@ -38,11 +38,31 @@ public final class User extends AbstractMappedEntity implements Serializable {
 
     private String phone;
 
+    @Builder.Default
+    @Column(name = "email_subscription")
+    private Boolean emailSubscription = false;
+
+    @Builder.Default
+    @Column(name = "sms_subscription")
+    private Boolean smsSubscription = false;
+
+    @Builder.Default
+    @Column(name = "marketing_consent")
+    private Boolean marketingConsent = false;
+
+    @Builder.Default
+    @Column(name = "newsletter_subscription")
+    private Boolean newsletterSubscription = false;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Address> addresses;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Wishlist> wishlists;
+
+    @OneToOne(mappedBy = "user")
     private Credential credential;
 
 }
