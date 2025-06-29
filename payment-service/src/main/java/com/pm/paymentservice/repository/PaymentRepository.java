@@ -98,4 +98,16 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     
     @Query("SELECT p FROM Payment p WHERE p.status = 'COMPLETED' AND p.refundableAmount > 0")
     List<Payment> findRefundablePayments();
+
+    // Promotion related queries
+    List<Payment> findByHasPromotionTrue();
+    List<Payment> findByPromotionCode(String promotionCode);
+    List<Payment> findByPromotionId(Long promotionId);
+
+    @Query("SELECT SUM(p.discountAmount) FROM Payment p WHERE p.hasPromotion = true")
+    BigDecimal getTotalDiscountAmount();
+
+    long countByHasPromotionTrue();
+    long countByPromotionCode(String promotionCode);
+    long countByPromotionId(Long promotionId);
 }

@@ -543,4 +543,50 @@ public class PaymentServiceImpl implements PaymentService {
 
         log.info("Retried {} webhooks", webhooksToRetry.size());
     }
+
+    // ==================== Promotion Integration Methods ====================
+
+    @Override
+    public PaymentDto applyPromotionToPayment(Long paymentId, String promotionCode, Integer userId) {
+        log.info("Applying promotion {} to payment {}", promotionCode, paymentId);
+        // TODO: Implement promotion application logic
+        // This would call PromotionServiceClient to apply promotion
+        // and update payment with promotion details
+        throw new UnsupportedOperationException("Promotion integration not yet implemented");
+    }
+
+    @Override
+    public PaymentDto removePromotionFromPayment(Long paymentId) {
+        log.info("Removing promotion from payment {}", paymentId);
+        // TODO: Implement promotion removal logic
+        throw new UnsupportedOperationException("Promotion integration not yet implemented");
+    }
+
+    @Override
+    public PaymentDto validateAndApplyAutoPromotions(Long paymentId, Integer userId) {
+        log.info("Validating and applying auto promotions for payment {}", paymentId);
+        // TODO: Implement auto promotion logic
+        throw new UnsupportedOperationException("Promotion integration not yet implemented");
+    }
+
+    @Override
+    public List<PaymentDto> getPaymentsWithPromotions() {
+        log.info("Fetching payments with promotions");
+        List<Payment> payments = paymentRepository.findByHasPromotionTrue();
+        return payments.stream()
+                .map(paymentMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public BigDecimal getTotalDiscountAmount() {
+        log.info("Calculating total discount amount");
+        return paymentRepository.getTotalDiscountAmount();
+    }
+
+    @Override
+    public long countPaymentsWithPromotions() {
+        log.info("Counting payments with promotions");
+        return paymentRepository.countByHasPromotionTrue();
+    }
 }

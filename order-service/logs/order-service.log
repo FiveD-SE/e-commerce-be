@@ -367,3 +367,15 @@ If you want to disable this check, just set the property [spring.cloud.compatibi
 2025-06-29 19:13:28 [http-nio-8600-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, */*] and supported [application/json]
 2025-06-29 19:13:28 [http-nio-8600-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [{123, 34, 111, 112, 101, 110, 97, 112, 105, 34, 58, 34, 51, 46, 48, 46, 49, 34, 44, 34, 105, 110, 10 (truncated)...]
 2025-06-29 19:13:28 [http-nio-8600-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-06-29 21:24:27 [http-nio-8600-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - GET "/order-service/swagger-ui/swagger-initializer.js", parameters={}
+2025-06-29 21:24:27 [http-nio-8600-exec-3] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/webjars/]]
+2025-06-29 21:24:27 [http-nio-8600-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-06-29 21:24:40 [http-nio-8600-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - GET "/order-service/api-docs", parameters={}
+2025-06-29 21:24:40 [http-nio-8600-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to org.springdoc.webmvc.api.OpenApiWebMvcResource#openapiJson(HttpServletRequest, String, Locale)
+2025-06-29 21:24:54 [http-nio-8600-exec-7] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 13682 ms
+2025-06-29 21:24:54 [http-nio-8600-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [application/json, */*] and supported [application/json]
+2025-06-29 21:24:54 [http-nio-8600-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [{123, 34, 111, 112, 101, 110, 97, 112, 105, 34, 58, 34, 51, 46, 48, 46, 49, 34, 44, 34, 105, 110, 10 (truncated)...]
+2025-06-29 21:24:54 [http-nio-8600-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-06-29 21:30:16 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-29 21:30:16 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-06-29 21:30:16 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

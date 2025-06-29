@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 public interface PaymentService {
     
@@ -58,4 +59,12 @@ public interface PaymentService {
     // Scheduled Tasks
     void expireOldPayments();
     void retryFailedWebhooks();
+
+    // Promotion Integration
+    PaymentDto applyPromotionToPayment(Long paymentId, String promotionCode, Integer userId);
+    PaymentDto removePromotionFromPayment(Long paymentId);
+    PaymentDto validateAndApplyAutoPromotions(Long paymentId, Integer userId);
+    List<PaymentDto> getPaymentsWithPromotions();
+    BigDecimal getTotalDiscountAmount();
+    long countPaymentsWithPromotions();
 }

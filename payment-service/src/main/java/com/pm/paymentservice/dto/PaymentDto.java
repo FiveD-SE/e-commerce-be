@@ -85,6 +85,16 @@ public class PaymentDto implements Serializable {
     private BigDecimal riskScore;
     private Boolean isHighRisk;
 
+    // Promotion Information
+    private String promotionCode;
+    private Long promotionId;
+    private String promotionName;
+    private String promotionType;
+    private BigDecimal originalAmount;
+    private BigDecimal discountAmount;
+    private Long promotionUsageId;
+    private Boolean hasPromotion;
+
     // Relationships
     private Set<PaymentTransactionDto> transactions;
     

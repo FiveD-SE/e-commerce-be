@@ -107,6 +107,32 @@ public class Payment extends AbstractMappedEntity {
     @Column(name = "last_refund_at")
     private Instant lastRefundAt;
 
+    // Promotion Information
+    @Column(name = "promotion_code", length = 50)
+    private String promotionCode;
+
+    @Column(name = "promotion_id")
+    private Long promotionId;
+
+    @Column(name = "promotion_name", length = 255)
+    private String promotionName;
+
+    @Column(name = "promotion_type", length = 20)
+    private String promotionType;
+
+    @Column(name = "original_amount", columnDefinition = "DECIMAL(12,2)")
+    private BigDecimal originalAmount;
+
+    @Column(name = "discount_amount", columnDefinition = "DECIMAL(12,2) DEFAULT 0.00")
+    private BigDecimal discountAmount;
+
+    @Column(name = "promotion_usage_id")
+    private Long promotionUsageId;
+
+    @Column(name = "has_promotion")
+    @Builder.Default
+    private Boolean hasPromotion = false;
+
     // Additional Information
     @Column(name = "description", length = 500)
     private String description;
@@ -158,6 +184,15 @@ public class Payment extends AbstractMappedEntity {
         if (refundableAmount == null) {
             refundableAmount = amount;
         }
+        if (discountAmount == null) {
+            discountAmount = BigDecimal.ZERO;
+        }
+        if (originalAmount == null) {
+            originalAmount = amount;
+        }
+        if (hasPromotion == null) {
+            hasPromotion = false;
+        }
     }
 
     private String generatePaymentReference() {
@@ -191,5 +226,56 @@ public class Payment extends AbstractMappedEntity {
 
     public BigDecimal getRemainingRefundableAmount() {
         return refundableAmount.subtract(refundedAmount);
+    }
+
+    // Promotion helper methods
+    public boolean hasPromotion() {
+        return Boolean.TRUE.equals(hasPromotion) && promotionCode != null;
+    }
+
+    public void applyPromotion(String promotionCode, Long promotionId, String promotionName,
+                              String promotionType, BigDecimal discountAmount, Long promotionUsageId) {
+        this.promotionCode = promotionCode;
+        this.promotionId = promotionId;
+        this.promotionName = promotionName;
+        this.promotionType = promotionType;
+        this.originalAmount = this.amount;
+        this.discountAmount = discountAmount;
+        this.promotionUsageId = promotionUsageId;
+        this.hasPromotion = true;
+
+        // Update final amount
+        this.amount = this.originalAmount.subtract(discountAmount);
+        this.refundableAmount = this.amount;
+    }
+
+    public void removePromotion() {
+        if (hasPromotion()) {
+            // Restore original amount
+            this.amount = this.originalAmount;
+            this.refundableAmount = this.amount;
+
+            // Clear promotion fields
+            this.promotionCode = null;
+            this.promotionId = null;
+            this.promotionName = null;
+            this.promotionType = null;
+            this.discountAmount = BigDecimal.ZERO;
+            this.promotionUsageId = null;
+            this.hasPromotion = false;
+            this.originalAmount = null;
+        }
+    }
+
+    public BigDecimal getFinalAmount() {
+        return this.amount;
+    }
+
+    public BigDecimal getDiscountPercentage() {
+        if (originalAmount == null || originalAmount.compareTo(BigDecimal.ZERO) == 0 || discountAmount == null) {
+            return BigDecimal.ZERO;
+        }
+        return discountAmount.multiply(BigDecimal.valueOf(100))
+                .divide(originalAmount, 2, BigDecimal.ROUND_HALF_UP);
     }
 }
