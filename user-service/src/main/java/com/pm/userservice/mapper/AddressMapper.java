@@ -5,6 +5,9 @@ import com.pm.userservice.model.Address;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Mapper(
         componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,

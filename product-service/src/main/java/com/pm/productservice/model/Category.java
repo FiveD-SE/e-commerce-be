@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "categories", schema = "category_service")
+@Table(name = "categories")
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)

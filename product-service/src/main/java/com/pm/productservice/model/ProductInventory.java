@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "product_inventory", schema = "product_service")
+@Table(name = "product_inventory")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

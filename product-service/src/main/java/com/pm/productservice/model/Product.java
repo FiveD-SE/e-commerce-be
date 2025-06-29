@@ -3,10 +3,11 @@ package com.pm.productservice.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "products", schema = "product_service")
+@Table(name = "products")
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true, exclude = {"category"})
@@ -31,10 +32,13 @@ public final class Product extends AbstractMappedEntity implements Serializable 
     private String description;
 
     @Column(name = "price", nullable = false, columnDefinition = "DECIMAL(10,2)")
-    private Double price;
+    private BigDecimal price;
 
     @Column(name = "category_id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID categoryId;
+
+    @Column(name = "brand_id", columnDefinition = "BINARY(16)")
+    private UUID brandId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)

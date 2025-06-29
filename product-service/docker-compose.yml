@@ -1,23 +1,31 @@
 services:
   product-service:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: product-service
     ports:
-      - "${PRODUCT_SERVICE_PORT}:8500"
+      - "${PRODUCT_SERVICE_PORT:-8501}:${SERVER_PORT:-8501}"
     environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
+      - SERVER_PORT=${SERVER_PORT:-8501}
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/product_service?createDatabaseIfNotExist=true&characterEncoding=UTF-8&useUnicode=true&allowMultiQueries=true
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-root}
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-secret}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_FLYWAY_ENABLED=true
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=${SPRING_JPA_HIBERNATE_DDL_AUTO:-update}
+      - SPRING_FLYWAY_ENABLED=${SPRING_FLYWAY_ENABLED:-true}
+      - EUREKA_CLIENT_ENABLED=${EUREKA_CLIENT_ENABLED:-false}
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:-http://eureka-server:8761/eureka/}
-      - SPRING_ZIPKIN_BASE_URL=${SPRING_ZIPKIN_BASE_URL}
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+      - SPRING_ZIPKIN_BASE_URL=${SPRING_ZIPKIN_BASE_URL:-http://zipkin:9411/}
       - LOG_FILE_PATH=${LOG_FILE_PATH:-/app/logs}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-product_service}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-secret}
     depends_on:
       mysql:
         condition: service_healthy
     volumes:
       - ./logs:/app/logs
+      - product-service-data:/app/data
     networks:
       - e-commerce-network
     healthcheck:
@@ -26,24 +34,33 @@ services:
           "CMD",
           "curl",
           "-f",
-          "http://localhost:8500/product-service/actuator/health",
+          "http://localhost:${SERVER_PORT:-8501}/product-service/actuator/health",
         ]
-      interval: 10s
-      timeout: 5s
+      interval: 30s
+      timeout: 10s
       retries: 5
+      start_period: 60s
+    restart: unless-stopped
 
   mysql:
     image: mysql:8.0
+    container_name: product-service-mysql
     ports:
-      - "${MYSQL_PORT}:3306"
+      - "${MYSQL_PORT:-3306}:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-secret}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-product_service}
       - MYSQL_CHARSET=utf8mb4
       - MYSQL_COLLATION=utf8mb4_unicode_ci
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command: >
+      --character-set-server=utf8mb4 
+      --collation-server=utf8mb4_unicode_ci
+      --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO
+      --max_connections=200
+      --innodb_buffer_pool_size=256M
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./src/main/resources/db/init:/docker-entrypoint-initdb.d
     networks:
       - e-commerce-network
     healthcheck:
@@ -56,31 +73,72 @@ services:
           "localhost",
           "-u",
           "root",
-          "-p${MYSQL_ROOT_PASSWORD}",
+          "-p${MYSQL_ROOT_PASSWORD:-secret}",
         ]
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 20
+      start_period: 30s
+    restart: unless-stopped
 
-  # Optional: Uncomment if Zipkin is required
-  # zipkin:
-  #   image: openzipkin/zipkin
-  #   ports:
-  #     - "${ZIPKIN_PORT}:9411"
-  #   networks:
-  #     - e-commerce-network
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: product-service-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+    command: redis-server --appendonly yes ${REDIS_PASSWORD:+--requirepass $REDIS_PASSWORD}
+    volumes:
+      - redis-data:/data
+    networks:
+      - e-commerce-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    profiles:
+      - redis
 
-  # Optional: Uncomment if Eureka is required
-  # eureka-server:
-  #   image: springcloud/eureka
-  #   ports:
-  #     - "8761:8761"
-  #   networks:
-  #     - e-commerce-network
+  # Zipkin for tracing (optional)
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: product-service-zipkin
+    ports:
+      - "${ZIPKIN_PORT:-9411}:9411"
+    environment:
+      - STORAGE_TYPE=mem
+    networks:
+      - e-commerce-network
+    profiles:
+      - zipkin
+
+  # Eureka Server (optional)
+  eureka-server:
+    image: springcloud/eureka
+    container_name: product-service-eureka
+    ports:
+      - "${EUREKA_PORT:-8761}:8761"
+    environment:
+      - eureka.client.register-with-eureka=false
+      - eureka.client.fetch-registry=false
+    networks:
+      - e-commerce-network
+    profiles:
+      - eureka
 
 networks:
   e-commerce-network:
-    external: true
+    driver: bridge
+    name: e-commerce-network
 
 volumes:
   mysql-data:
+    driver: local
+  redis-data:
+    driver: local
+  product-service-data:
+    driver: local
