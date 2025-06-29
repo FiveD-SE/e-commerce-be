@@ -320,6 +320,80 @@ services:
       timeout: 5s
       retries: 5
 
+  # Content Service
+  content-service:
+    build: ./content-service
+    ports:
+      - "${CONTENT_SERVICE_PORT:-8900}:8900"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://content-mysql:3306/content_service?createDatabaseIfNotExist=true&characterEncoding=UTF-8&useUnicode=true&allowMultiQueries=true
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-secret}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_FLYWAY_ENABLED=true
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:-http://eureka-server:8761/eureka/}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker}
+      - LOG_FILE_PATH=${LOG_FILE_PATH:-/app/logs}
+      - CONTENT_BLOG_DEFAULT_LANGUAGE=${CONTENT_BLOG_DEFAULT_LANGUAGE:-vi}
+      - CONTENT_BLOG_DEFAULT_STATUS=${CONTENT_BLOG_DEFAULT_STATUS:-DRAFT}
+      - CONTENT_BLOG_AUTO_GENERATE_SLUG=${CONTENT_BLOG_AUTO_GENERATE_SLUG:-true}
+      - CONTENT_BLOG_AUTO_CALCULATE_READING_TIME=${CONTENT_BLOG_AUTO_CALCULATE_READING_TIME:-true}
+      - CONTENT_BLOG_MAX_CONTENT_LENGTH=${CONTENT_BLOG_MAX_CONTENT_LENGTH:-1000000}
+      - CONTENT_BANNER_DEFAULT_TYPE=${CONTENT_BANNER_DEFAULT_TYPE:-IMAGE}
+      - CONTENT_BANNER_DEFAULT_TARGET=${CONTENT_BANNER_DEFAULT_TARGET:-_self}
+      - CONTENT_BANNER_MAX_FILE_SIZE=${CONTENT_BANNER_MAX_FILE_SIZE:-10485760}
+      - FILE_STORAGE_PATH=${FILE_STORAGE_PATH:-/app/uploads}
+      - FILE_BASE_URL=${FILE_BASE_URL:-http://localhost:8900/content-service/files}
+    depends_on:
+      content-mysql:
+        condition: service_healthy
+    volumes:
+      - ./content-service/logs:/app/logs
+      - ./content-service/uploads:/app/uploads
+    networks:
+      - e-commerce-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:8900/content-service/actuator/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Content Service MySQL
+  content-mysql:
+    image: mysql:8.0
+    ports:
+      - "${CONTENT_MYSQL_PORT:-3312}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-secret}
+      - MYSQL_DATABASE=content_service
+      - MYSQL_USER=${CONTENT_MYSQL_USER:-content_user}
+      - MYSQL_PASSWORD=${CONTENT_MYSQL_PASSWORD:-content_password}
+    volumes:
+      - content-mysql-data:/var/lib/mysql
+    networks:
+      - e-commerce-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p${MYSQL_ROOT_PASSWORD:-secret}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 networks:
   e-commerce-network:
     driver: bridge
@@ -330,3 +404,4 @@ volumes:
   cart-mysql-data:
   order-mysql-data:
   payment-mysql-data:
+  content-mysql-data:
