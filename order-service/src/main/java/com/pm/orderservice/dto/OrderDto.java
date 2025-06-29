@@ -77,6 +77,14 @@ public class OrderDto implements Serializable {
     private String paymentId;
     private String transactionId;
 
+    // Payment Integration Fields
+    private String paymentReference;
+    private String paymentGateway;
+    private String paymentGatewayTransactionId;
+    private Instant paymentInitiatedAt;
+    private Instant paymentCompletedAt;
+    private Instant paymentFailedAt;
+
     // Shipping Information
     private String shippingMethod;
     private String trackingNumber;

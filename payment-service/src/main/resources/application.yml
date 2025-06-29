@@ -1,11 +1,11 @@
 server:
-  port: 8600
+  port: 8800
   servlet:
-    context-path: /order-service
+    context-path: /payment-service
 
 spring:
   application:
-    name: ORDER-SERVICE
+    name: PAYMENT-SERVICE
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   config:
@@ -28,9 +28,12 @@ spring:
       hibernate:
         use_sql_comments: true
         format_sql: true
+    show-sql: false
   flyway:
     enabled: true
     baseline-on-migrate: true
+    validate-on-migrate: true
+    locations: classpath:db/migration
 
 eureka:
   client:
@@ -39,6 +42,7 @@ eureka:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka-server:8761/eureka/}
   instance:
     prefer-ip-address: true
+    health-check-url-path: /payment-service/actuator/health
 
 springdoc:
   api-docs:
@@ -51,7 +55,7 @@ springdoc:
     tagsSorter: alpha
     tryItOutEnabled: true
     filter: true
-  packages-to-scan: com.pm.orderservice.controller
+  packages-to-scan: com.pm.paymentservice.controller
   paths-to-match: /api/**
 
 management:
@@ -78,19 +82,33 @@ management:
 
 logging:
   level:
-    com.pm.orderservice: DEBUG
+    com.pm.paymentservice: DEBUG
     org.springframework.web: DEBUG
   file:
-    name: ${LOG_FILE_PATH:/app/logs}/order-service.log
+    name: ${LOG_FILE_PATH:/app/logs}/payment-service.log
   pattern:
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
-# Service Integration Configuration
-services:
-  payment:
-    url: ${PAYMENT_SERVICE_URL:http://payment-service:8800/payment-service}
-  cart:
-    url: ${CART_SERVICE_URL:http://cart-service:8300/cart-service}
-  product:
-    url: ${PRODUCT_SERVICE_URL:http://product-service:8500/product-service}
+# Payment Gateway Configuration
+payment:
+  gateways:
+    stripe:
+      enabled: ${STRIPE_ENABLED:false}
+      secret-key: ${STRIPE_SECRET_KEY:}
+      public-key: ${STRIPE_PUBLIC_KEY:}
+      webhook-secret: ${STRIPE_WEBHOOK_SECRET:}
+    paypal:
+      enabled: ${PAYPAL_ENABLED:false}
+      client-id: ${PAYPAL_CLIENT_ID:}
+      client-secret: ${PAYPAL_CLIENT_SECRET:}
+      mode: ${PAYPAL_MODE:sandbox}
+    vnpay:
+      enabled: ${VNPAY_ENABLED:true}
+      tmn-code: ${VNPAY_TMN_CODE:}
+      hash-secret: ${VNPAY_HASH_SECRET:}
+      url: ${VNPAY_URL:https://sandbox.vnpayment.vn/paymentv2/vpcpay.html}
+      return-url: ${VNPAY_RETURN_URL:http://localhost:8800/payment-service/api/payments/vnpay/return}
+      notify-url: ${VNPAY_NOTIFY_URL:http://localhost:8800/payment-service/api/payments/vnpay/notify}
+  default-currency: VND
+  timeout-minutes: 15

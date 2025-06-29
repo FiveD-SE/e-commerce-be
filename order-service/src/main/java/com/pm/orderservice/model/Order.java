@@ -101,6 +101,25 @@ public class Order extends AbstractMappedEntity {
     @Column(name = "transaction_id", length = 100)
     private String transactionId;
 
+    // Payment Integration Fields
+    @Column(name = "payment_reference", length = 100)
+    private String paymentReference;
+
+    @Column(name = "payment_gateway", length = 20)
+    private String paymentGateway;
+
+    @Column(name = "payment_gateway_transaction_id", length = 255)
+    private String paymentGatewayTransactionId;
+
+    @Column(name = "payment_initiated_at")
+    private Instant paymentInitiatedAt;
+
+    @Column(name = "payment_completed_at")
+    private Instant paymentCompletedAt;
+
+    @Column(name = "payment_failed_at")
+    private Instant paymentFailedAt;
+
     // Shipping Information
     @Column(name = "shipping_method", length = 50)
     private String shippingMethod; // STANDARD, EXPRESS, OVERNIGHT

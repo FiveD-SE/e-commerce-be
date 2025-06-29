@@ -1,6 +1,9 @@
 package com.pm.orderservice.service.impl;
 
+import com.pm.orderservice.client.PaymentServiceClient;
 import com.pm.orderservice.dto.*;
+import com.pm.orderservice.dto.payment.CreatePaymentRequest;
+import com.pm.orderservice.dto.payment.PaymentDto;
 import com.pm.orderservice.dto.response.collection.CollectionResponse;
 import com.pm.orderservice.mapper.OrderItemMapper;
 import com.pm.orderservice.mapper.OrderMapper;
@@ -34,6 +37,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderItemMapper orderItemMapper;
     private final RestTemplate restTemplate;
+    private final PaymentServiceClient paymentServiceClient;
 
     // ==================== Order Creation and Management ====================
 
@@ -78,6 +82,40 @@ public class OrderServiceImpl implements OrderService {
 
         Order savedOrder = orderRepository.save(order);
         log.info("Order created successfully with ID: {}", savedOrder.getOrderId());
+
+        // Create payment for the order if payment method is specified
+        if (request.getPaymentMethod() != null && !"CASH_ON_DELIVERY".equals(request.getPaymentMethod())) {
+            try {
+                CreatePaymentRequest paymentRequest = CreatePaymentRequest.builder()
+                        .orderId(savedOrder.getOrderId())
+                        .userId(savedOrder.getUserId())
+                        .userEmail(savedOrder.getUserEmail())
+                        .amount(savedOrder.getTotalAmount())
+                        .currency("VND")
+                        .gateway(request.getPaymentMethod())
+                        .description("Payment for order " + savedOrder.getOrderNumber())
+                        .timeoutMinutes(15)
+                        .build();
+
+                PaymentDto payment = paymentServiceClient.createPayment(paymentRequest);
+
+                // Update order with payment information
+                savedOrder.setPaymentReference(payment.getPaymentReference());
+                savedOrder.setPaymentGateway(payment.getGateway());
+                savedOrder.setPaymentStatus("PENDING");
+                savedOrder.setPaymentInitiatedAt(payment.getInitiatedAt());
+
+                savedOrder = orderRepository.save(savedOrder);
+                log.info("Payment created for order ID: {} with payment reference: {}",
+                        savedOrder.getOrderId(), payment.getPaymentReference());
+
+            } catch (Exception e) {
+                log.error("Failed to create payment for order ID: {}", savedOrder.getOrderId(), e);
+                // Don't fail the order creation, just log the error
+                // The payment can be created later manually
+            }
+        }
+
         return orderMapper.toDTO(savedOrder);
     }
 
@@ -508,5 +546,61 @@ public class OrderServiceImpl implements OrderService {
                 .estimatedDeliveryDate(order.getEstimatedDeliveryDate())
                 .totalItems(totalItems)
                 .build();
+    }
+
+    // ==================== Payment Integration ====================
+
+    @Override
+    public OrderDto updatePaymentStatus(Long orderId, String paymentStatus, String gatewayTransactionId) {
+        log.info("Updating payment status for order ID: {} to {}", orderId, paymentStatus);
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
+
+        order.setPaymentStatus(paymentStatus);
+        if (gatewayTransactionId != null) {
+            order.setPaymentGatewayTransactionId(gatewayTransactionId);
+        }
+
+        // Update payment timestamps based on status
+        Instant now = Instant.now();
+        switch (paymentStatus.toUpperCase()) {
+            case "COMPLETED":
+                order.setPaymentCompletedAt(now);
+                // Auto-confirm order when payment is completed
+                if (order.getStatus() == OrderStatus.PENDING) {
+                    order.setStatus(OrderStatus.CONFIRMED);
+                }
+                break;
+            case "FAILED":
+                order.setPaymentFailedAt(now);
+                break;
+        }
+
+        Order updatedOrder = orderRepository.save(order);
+        log.info("Payment status updated for order ID: {}", orderId);
+
+        return orderMapper.toDTO(updatedOrder);
+    }
+
+    @Override
+    public OrderDto confirmPayment(Long orderId, String gatewayTransactionId) {
+        log.info("Confirming payment for order ID: {} with gateway transaction ID: {}", orderId, gatewayTransactionId);
+        return updatePaymentStatus(orderId, "COMPLETED", gatewayTransactionId);
+    }
+
+    @Override
+    public OrderDto failPayment(Long orderId, String reason) {
+        log.info("Failing payment for order ID: {} with reason: {}", orderId, reason);
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
+
+        order.setPaymentStatus("FAILED");
+        order.setPaymentFailedAt(Instant.now());
+        order.setNotes(order.getNotes() != null ? order.getNotes() + "; Payment failed: " + reason : "Payment failed: " + reason);
+
+        Order updatedOrder = orderRepository.save(order);
+        log.info("Payment failed for order ID: {}", orderId);
+
+        return orderMapper.toDTO(updatedOrder);
     }
 }

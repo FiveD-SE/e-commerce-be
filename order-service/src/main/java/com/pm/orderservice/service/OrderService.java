@@ -42,4 +42,9 @@ public interface OrderService {
     OrderDto addItemToOrder(Long orderId, OrderItemDto orderItemDto);
     OrderDto removeItemFromOrder(Long orderId, Long orderItemId);
     OrderDto updateOrderItem(Long orderId, Long orderItemId, OrderItemDto orderItemDto);
+
+    // Payment Integration
+    OrderDto updatePaymentStatus(Long orderId, String paymentStatus, String gatewayTransactionId);
+    OrderDto confirmPayment(Long orderId, String gatewayTransactionId);
+    OrderDto failPayment(Long orderId, String reason);
 }
