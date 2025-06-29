@@ -1,0 +1,1084 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.pm:user-service >-------------------------
+[INFO] Building user-service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.3.0:run (default-cli) > test-compile @ user-service >>>
+[WARNING] The artifact mysql:mysql-connector-java:jar:8.0.33 has been relocated to com.mysql:mysql-connector-j:jar:8.0.33: MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ user-service ---
+[INFO] Copying 5 resources from src/main/resources to target/classes
+[INFO] Copying 13 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ user-service ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 52 source files with javac [debug parameters release 21] to target/classes
+[INFO] MapStruct: Using accessor naming strategy: org.mapstruct.ap.spi.DefaultAccessorNamingStrategy
+[INFO] MapStruct: Using builder provider: org.mapstruct.ap.spi.DefaultBuilderProvider
+[INFO] MapStruct: Using enum naming strategy: org.mapstruct.ap.spi.DefaultEnumMappingStrategy
+[INFO]  MapStruct: processing: com.pm.userservice.mapper.VerificationTokenMapper.
+[INFO] - MapStruct: creating bean mapping method implementation for com.pm.userservice.dto.VerificationTokenDto toDto(com.pm.userservice.model.VerificationToken token).
+[INFO] -- MapStruct: mapping property: tokenCredentialCredentialId( token ) to: credentialId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: tokenCredentialCredentialId( token ).
+[INFO] -- MapStruct: mapping property: token.getVerificationTokenId() to: verificationTokenId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: token.getVerificationTokenId().
+[INFO] -- MapStruct: mapping property: token.getToken() to: token(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: token.getToken().
+[INFO] -- MapStruct: mapping property: token.getExpireDate() to: expireDate(java.time.LocalDate).
+[INFO] -- MapStruct: selecting property mapping: token.getExpireDate().
+[INFO] - MapStruct: creating bean mapping method implementation for com.pm.userservice.model.VerificationToken toEntity(com.pm.userservice.dto.VerificationTokenDto dto).
+[INFO] -- MapStruct: mapping property: dto to: credential(com.pm.userservice.model.Credential).
+[INFO] -- MapStruct: mapping property: verificationTokenDto.getCredentialId() to: credentialId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: verificationTokenDto.getCredentialId().
+[INFO] -- MapStruct: creating property mapping: com.pm.userservice.model.Credential #verificationTokenDtoToCredential(dto).
+[INFO] -- MapStruct: selecting property mapping: com.pm.userservice.model.Credential #verificationTokenDtoToCredential(dto).
+[INFO] -- MapStruct: mapping property: dto.getVerificationTokenId() to: verificationTokenId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: dto.getVerificationTokenId().
+[INFO] -- MapStruct: mapping property: dto.getToken() to: token(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: dto.getToken().
+[INFO] -- MapStruct: mapping property: dto.getExpireDate() to: expireDate(java.time.LocalDate).
+[INFO] -- MapStruct: selecting property mapping: dto.getExpireDate().
+[INFO]  MapStruct: processing: com.pm.userservice.mapper.WishlistMapper.
+[INFO] - MapStruct: creating bean mapping method implementation for com.pm.userservice.dto.WishlistDto toDto(com.pm.userservice.model.Wishlist wishlist).
+[INFO] -- MapStruct: mapping property: wishlistUserUserId( wishlist ) to: userId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: wishlistUserUserId( wishlist ).
+[INFO] -- MapStruct: mapping property: wishlist.getWishlistId() to: wishlistId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: wishlist.getWishlistId().
+[INFO] -- MapStruct: mapping property: wishlist.getProductId() to: productId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: wishlist.getProductId().
+[INFO] -- MapStruct: mapping property: wishlist.getCreatedAt() to: createdAt(java.time.Instant).
+[INFO] -- MapStruct: selecting property mapping: wishlist.getCreatedAt().
+[INFO] - MapStruct: creating bean mapping method implementation for com.pm.userservice.model.Wishlist toEntity(com.pm.userservice.dto.WishlistDto wishlistDto).
+[INFO] -- MapStruct: mapping property: wishlistDto to: user(com.pm.userservice.model.User).
+[INFO] -- MapStruct: mapping property: wishlistDto.getUserId() to: userId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: wishlistDto.getUserId().
+[INFO] -- MapStruct: creating property mapping: com.pm.userservice.model.User #wishlistDtoToUser(wishlistDto).
+[INFO] -- MapStruct: selecting property mapping: com.pm.userservice.model.User #wishlistDtoToUser(wishlistDto).
+[INFO] -- MapStruct: mapping property: wishlistDto.getWishlistId() to: wishlistId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: wishlistDto.getWishlistId().
+[INFO] -- MapStruct: mapping property: wishlistDto.getProductId() to: productId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: wishlistDto.getProductId().
+[INFO]  MapStruct: processing: com.pm.userservice.mapper.UserMapper.
+[INFO] - MapStruct: creating bean mapping method implementation for com.pm.userservice.dto.UserDto toDto(com.pm.userservice.model.User user).
+[INFO] -- MapStruct: mapping property: user.getAddresses() to: addressDtos(java.util.Set<com.pm.userservice.dto.AddressDto>).
+[INFO] -- MapStruct: selecting element mapping: com.pm.userservice.dto.AddressDto AddressMapper#toDto(address).
+[INFO] -- MapStruct: creating property mapping: java.util.Set<com.pm.userservice.dto.AddressDto> #addressSetToAddressDtoSet(user.getAddresses()).
+[INFO] -- MapStruct: selecting property mapping: java.util.Set<com.pm.userservice.dto.AddressDto> #addressSetToAddressDtoSet(user.getAddresses()).
+[INFO] -- MapStruct: mapping property: user.getWishlists() to: wishlistDtos(java.util.Set<com.pm.userservice.dto.WishlistDto>).
+[INFO] -- MapStruct: selecting element mapping: com.pm.userservice.dto.WishlistDto WishlistMapper#toDto(wishlist).
+[INFO] -- MapStruct: creating property mapping: java.util.Set<com.pm.userservice.dto.WishlistDto> #wishlistSetToWishlistDtoSet(user.getWishlists()).
+[INFO] -- MapStruct: selecting property mapping: java.util.Set<com.pm.userservice.dto.WishlistDto> #wishlistSetToWishlistDtoSet(user.getWishlists()).
+[INFO] -- MapStruct: mapping property: userCredentialCredentialId( user ) to: credentialId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: userCredentialCredentialId( user ).
+[INFO] -- MapStruct: mapping property: user.getUserId() to: userId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: user.getUserId().
+[INFO] -- MapStruct: mapping property: user.getFirstName() to: firstName(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: user.getFirstName().
+[INFO] -- MapStruct: mapping property: user.getLastName() to: lastName(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: user.getLastName().
+[INFO] -- MapStruct: mapping property: user.getImageUrl() to: imageUrl(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: user.getImageUrl().
+[INFO] -- MapStruct: mapping property: user.getEmail() to: email(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: user.getEmail().
+[INFO] -- MapStruct: mapping property: user.getPhone() to: phone(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: user.getPhone().
+[INFO] -- MapStruct: mapping property: user.getEmailSubscription() to: emailSubscription(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: user.getEmailSubscription().
+[INFO] -- MapStruct: mapping property: user.getSmsSubscription() to: smsSubscription(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: user.getSmsSubscription().
+[INFO] -- MapStruct: mapping property: user.getMarketingConsent() to: marketingConsent(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: user.getMarketingConsent().
+[INFO] -- MapStruct: mapping property: user.getNewsletterSubscription() to: newsletterSubscription(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: user.getNewsletterSubscription().
+[INFO] - MapStruct: creating bean mapping method implementation for com.pm.userservice.model.User toEntity(com.pm.userservice.dto.UserDto userDto).
+[INFO] -- MapStruct: mapping property: userDto.getAddressDtos() to: addresses(java.util.Set<com.pm.userservice.model.Address>).
+[INFO] -- MapStruct: selecting element mapping: com.pm.userservice.model.Address AddressMapper#toEntity(addressDto).
+[INFO] -- MapStruct: creating property mapping: java.util.Set<com.pm.userservice.model.Address> #addressDtoSetToAddressSet(userDto.getAddressDtos()).
+[INFO] -- MapStruct: selecting property mapping: java.util.Set<com.pm.userservice.model.Address> #addressDtoSetToAddressSet(userDto.getAddressDtos()).
+[INFO] -- MapStruct: mapping property: userDto.getWishlistDtos() to: wishlists(java.util.Set<com.pm.userservice.model.Wishlist>).
+[INFO] -- MapStruct: selecting element mapping: com.pm.userservice.model.Wishlist WishlistMapper#toEntity(wishlistDto).
+[INFO] -- MapStruct: creating property mapping: java.util.Set<com.pm.userservice.model.Wishlist> #wishlistDtoSetToWishlistSet(userDto.getWishlistDtos()).
+[INFO] -- MapStruct: selecting property mapping: java.util.Set<com.pm.userservice.model.Wishlist> #wishlistDtoSetToWishlistSet(userDto.getWishlistDtos()).
+[INFO] -- MapStruct: mapping property: userDto.getUserId() to: userId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: userDto.getUserId().
+[INFO] -- MapStruct: mapping property: userDto.getFirstName() to: firstName(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: userDto.getFirstName().
+[INFO] -- MapStruct: mapping property: userDto.getLastName() to: lastName(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: userDto.getLastName().
+[INFO] -- MapStruct: mapping property: userDto.getImageUrl() to: imageUrl(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: userDto.getImageUrl().
+[INFO] -- MapStruct: mapping property: userDto.getEmail() to: email(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: userDto.getEmail().
+[INFO] -- MapStruct: mapping property: userDto.getPhone() to: phone(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: userDto.getPhone().
+[INFO] -- MapStruct: mapping property: userDto.getEmailSubscription() to: emailSubscription(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: userDto.getEmailSubscription().
+[INFO] -- MapStruct: mapping property: userDto.getSmsSubscription() to: smsSubscription(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: userDto.getSmsSubscription().
+[INFO] -- MapStruct: mapping property: userDto.getMarketingConsent() to: marketingConsent(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: userDto.getMarketingConsent().
+[INFO] -- MapStruct: mapping property: userDto.getNewsletterSubscription() to: newsletterSubscription(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: userDto.getNewsletterSubscription().
+[INFO]  MapStruct: processing: com.pm.userservice.mapper.AddressMapper.
+[INFO] - MapStruct: creating bean mapping method implementation for com.pm.userservice.dto.AddressDto toDto(com.pm.userservice.model.Address address).
+[INFO] -- MapStruct: mapping property: addressUserUserId( address ) to: userId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: addressUserUserId( address ).
+[INFO] -- MapStruct: mapping property: address.getAddressId() to: addressId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: address.getAddressId().
+[INFO] -- MapStruct: mapping property: address.getFullAddress() to: fullAddress(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: address.getFullAddress().
+[INFO] -- MapStruct: mapping property: address.getPostalCode() to: postalCode(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: address.getPostalCode().
+[INFO] -- MapStruct: mapping property: address.getCity() to: city(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: address.getCity().
+[INFO] - MapStruct: creating bean mapping method implementation for com.pm.userservice.model.Address toEntity(com.pm.userservice.dto.AddressDto dto).
+[INFO] -- MapStruct: mapping property: dto to: user(com.pm.userservice.model.User).
+[INFO] -- MapStruct: mapping property: addressDto.getUserId() to: userId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: addressDto.getUserId().
+[INFO] -- MapStruct: creating property mapping: com.pm.userservice.model.User #addressDtoToUser(dto).
+[INFO] -- MapStruct: selecting property mapping: com.pm.userservice.model.User #addressDtoToUser(dto).
+[INFO] -- MapStruct: mapping property: dto.getAddressId() to: addressId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: dto.getAddressId().
+[INFO] -- MapStruct: mapping property: dto.getFullAddress() to: fullAddress(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: dto.getFullAddress().
+[INFO] -- MapStruct: mapping property: dto.getPostalCode() to: postalCode(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: dto.getPostalCode().
+[INFO] -- MapStruct: mapping property: dto.getCity() to: city(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: dto.getCity().
+[INFO]  MapStruct: processing: com.pm.userservice.mapper.CredentialMapper.
+[INFO] - MapStruct: creating bean mapping method implementation for com.pm.userservice.dto.CredentialDto toDto(com.pm.userservice.model.Credential credential).
+[INFO] -- MapStruct: mapping property: credentialUserUserId( credential ) to: userId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: credentialUserUserId( credential ).
+[INFO] -- MapStruct: mapping property: credential.getVerificationTokens() to: verificationTokenDtos(java.util.Set<com.pm.userservice.dto.VerificationTokenDto>).
+[INFO] -- MapStruct: selecting element mapping: com.pm.userservice.dto.VerificationTokenDto VerificationTokenMapper#toDto(verificationToken).
+[INFO] -- MapStruct: creating property mapping: java.util.Set<com.pm.userservice.dto.VerificationTokenDto> #verificationTokenSetToVerificationTokenDtoSet(credential.getVerificationTokens()).
+[INFO] -- MapStruct: selecting property mapping: java.util.Set<com.pm.userservice.dto.VerificationTokenDto> #verificationTokenSetToVerificationTokenDtoSet(credential.getVerificationTokens()).
+[INFO] -- MapStruct: mapping property: credential.getCredentialId() to: credentialId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: credential.getCredentialId().
+[INFO] -- MapStruct: mapping property: credential.getUsername() to: username(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: credential.getUsername().
+[INFO] -- MapStruct: mapping property: credential.getPassword() to: password(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: credential.getPassword().
+[INFO] -- MapStruct: mapping property: credential.getRoleBasedAuthority() to: roleBasedAuthority(com.pm.userservice.model.RoleBasedAuthority).
+[INFO] -- MapStruct: selecting property mapping: credential.getRoleBasedAuthority().
+[INFO] -- MapStruct: mapping property: credential.getIsEnabled() to: isEnabled(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: credential.getIsEnabled().
+[INFO] -- MapStruct: mapping property: credential.getIsAccountNonExpired() to: isAccountNonExpired(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: credential.getIsAccountNonExpired().
+[INFO] -- MapStruct: mapping property: credential.getIsAccountNonLocked() to: isAccountNonLocked(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: credential.getIsAccountNonLocked().
+[INFO] -- MapStruct: mapping property: credential.getIsCredentialsNonExpired() to: isCredentialsNonExpired(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: credential.getIsCredentialsNonExpired().
+[INFO] - MapStruct: creating bean mapping method implementation for com.pm.userservice.model.Credential toEntity(com.pm.userservice.dto.CredentialDto credentialDto).
+[INFO] -- MapStruct: mapping property: credentialDto to: user(com.pm.userservice.model.User).
+[INFO] -- MapStruct: mapping property: credentialDto.getUserId() to: userId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: credentialDto.getUserId().
+[INFO] -- MapStruct: creating property mapping: com.pm.userservice.model.User #credentialDtoToUser(credentialDto).
+[INFO] -- MapStruct: selecting property mapping: com.pm.userservice.model.User #credentialDtoToUser(credentialDto).
+[INFO] -- MapStruct: mapping property: credentialDto.getVerificationTokenDtos() to: verificationTokens(java.util.Set<com.pm.userservice.model.VerificationToken>).
+[INFO] -- MapStruct: selecting element mapping: com.pm.userservice.model.VerificationToken VerificationTokenMapper#toEntity(verificationTokenDto).
+[INFO] -- MapStruct: creating property mapping: java.util.Set<com.pm.userservice.model.VerificationToken> #verificationTokenDtoSetToVerificationTokenSet(credentialDto.getVerificationTokenDtos()).
+[INFO] -- MapStruct: selecting property mapping: java.util.Set<com.pm.userservice.model.VerificationToken> #verificationTokenDtoSetToVerificationTokenSet(credentialDto.getVerificationTokenDtos()).
+[INFO] -- MapStruct: mapping property: credentialDto.getCredentialId() to: credentialId(java.lang.Integer).
+[INFO] -- MapStruct: selecting property mapping: credentialDto.getCredentialId().
+[INFO] -- MapStruct: mapping property: credentialDto.getUsername() to: username(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: credentialDto.getUsername().
+[INFO] -- MapStruct: mapping property: credentialDto.getPassword() to: password(java.lang.String).
+[INFO] -- MapStruct: selecting property mapping: credentialDto.getPassword().
+[INFO] -- MapStruct: mapping property: credentialDto.getRoleBasedAuthority() to: roleBasedAuthority(com.pm.userservice.model.RoleBasedAuthority).
+[INFO] -- MapStruct: selecting property mapping: credentialDto.getRoleBasedAuthority().
+[INFO] -- MapStruct: mapping property: credentialDto.getIsEnabled() to: isEnabled(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: credentialDto.getIsEnabled().
+[INFO] -- MapStruct: mapping property: credentialDto.getIsAccountNonExpired() to: isAccountNonExpired(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: credentialDto.getIsAccountNonExpired().
+[INFO] -- MapStruct: mapping property: credentialDto.getIsAccountNonLocked() to: isAccountNonLocked(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: credentialDto.getIsAccountNonLocked().
+[INFO] -- MapStruct: mapping property: credentialDto.getIsCredentialsNonExpired() to: isCredentialsNonExpired(java.lang.Boolean).
+[INFO] -- MapStruct: selecting property mapping: credentialDto.getIsCredentialsNonExpired().
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ user-service ---
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ user-service ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target/test-classes
+[WARNING] The following options were not recognized by any processor: '[mapstruct.verbose, mapstruct.defaultComponentModel, mapstruct.suppressGeneratorTimestamp]'
+[INFO] 
+[INFO] <<< spring-boot:3.3.0:run (default-cli) < test-compile @ user-service <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.3.0:run (default-cli) @ user-service ---
+[INFO] Attaching agents: []
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2025-06-29 10:50:34 [restartedMain] INFO  c.p.u.UserServiceApplication - Starting UserServiceApplication using Java 21.0.7 with PID 87361 (/Users/tai.nguyenthanh/Documents/GitHub/e-commerce-be/user-service/target/classes started by tai.nguyenthanh in /Users/tai.nguyenthanh/Documents/GitHub/e-commerce-be/user-service)
+2025-06-29 10:50:34 [restartedMain] DEBUG c.p.u.UserServiceApplication - Running with Spring Boot v3.3.0, Spring v6.1.8
+2025-06-29 10:50:34 [restartedMain] INFO  c.p.u.UserServiceApplication - The following 1 profile is active: "local"
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:9296
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Exception on Url - http://localhost:9296:org.springframework.web.client.ResourceAccessException: I/O error on GET request for "http://localhost:9296/USER-SERVICE/default": Connection refused. Will be trying the next url if available
+2025-06-29 10:50:34 [restartedMain] WARN  o.s.c.c.c.ConfigServerConfigDataLoader - Could not locate PropertySource ([ConfigServerConfigDataResource@1b27a66c uris = array<String>['http://localhost:9296'], optional = true, profiles = 'default']): I/O error on GET request for "http://localhost:9296/USER-SERVICE/default": Connection refused
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:9296
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Exception on Url - http://localhost:9296:org.springframework.web.client.ResourceAccessException: I/O error on GET request for "http://localhost:9296/USER-SERVICE/local": Connection refused. Will be trying the next url if available
+2025-06-29 10:50:34 [restartedMain] WARN  o.s.c.c.c.ConfigServerConfigDataLoader - Could not locate PropertySource ([ConfigServerConfigDataResource@165f0e06 uris = array<String>['http://localhost:9296'], optional = true, profiles = 'local']): I/O error on GET request for "http://localhost:9296/USER-SERVICE/local": Connection refused
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Fetching config from server at : http://localhost:9296
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.c.c.c.ConfigServerConfigDataLoader - Exception on Url - http://localhost:9296:org.springframework.web.client.ResourceAccessException: I/O error on GET request for "http://localhost:9296/USER-SERVICE/default": Connection refused. Will be trying the next url if available
+2025-06-29 10:50:34 [restartedMain] WARN  o.s.c.c.c.ConfigServerConfigDataLoader - Could not locate PropertySource ([ConfigServerConfigDataResource@167e40d6 uris = array<String>['http://localhost:9296'], optional = true, profiles = 'default']): I/O error on GET request for "http://localhost:9296/USER-SERVICE/default": Connection refused
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 96 ms. Found 5 JPA repository interfaces.
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.cloud.context.scope.GenericScope - BeanFactory id=c3ba42de-be69-32ca-bd60-ce809a17a615
+2025-06-29 10:50:34 [restartedMain] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-06-29 10:50:34 [restartedMain] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-06-29 10:50:34 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8700 (http)
+2025-06-29 10:50:34 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-29 10:50:34 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-06-29 10:50:35 [restartedMain] INFO  o.a.c.c.C.[.[.[/user-service] - Initializing Spring embedded WebApplicationContext
+2025-06-29 10:50:35 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 968 ms
+2025-06-29 10:50:35 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-06-29 10:50:35 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:userservice_db user=SA
+2025-06-29 10:50:35 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-06-29 10:50:35 [restartedMain] INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:userservice_db'
+2025-06-29 10:50:35 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-29 10:50:35 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-06-29 10:50:35 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-06-29 10:50:35 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-29 10:50:35 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-06-29 10:50:35 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    drop table if exists address cascade 
+Hibernate: 
+    drop table if exists address cascade 
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    drop table if exists credentials cascade 
+Hibernate: 
+    drop table if exists credentials cascade 
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    drop table if exists users cascade 
+Hibernate: 
+    drop table if exists users cascade 
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    drop table if exists verification_tokens cascade 
+Hibernate: 
+    drop table if exists verification_tokens cascade 
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    drop table if exists wishlists cascade 
+Hibernate: 
+    drop table if exists wishlists cascade 
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    create table address (
+        address_id integer generated by default as identity,
+        user_id integer,
+        created_at timestamp(6) with time zone,
+        updated_at timestamp(6) with time zone,
+        city varchar(255),
+        full_address varchar(255) unique,
+        postal_code varchar(255),
+        primary key (address_id)
+    )
+Hibernate: 
+    create table address (
+        address_id integer generated by default as identity,
+        user_id integer,
+        created_at timestamp(6) with time zone,
+        updated_at timestamp(6) with time zone,
+        city varchar(255),
+        full_address varchar(255) unique,
+        postal_code varchar(255),
+        primary key (address_id)
+    )
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    create table credentials (
+        credential_id integer generated by default as identity,
+        is_account_non_expired boolean,
+        is_account_non_locked boolean,
+        is_credentials_non_expired boolean,
+        is_enabled boolean,
+        user_id integer not null unique,
+        created_at timestamp(6) with time zone,
+        updated_at timestamp(6) with time zone,
+        password varchar(255),
+        username varchar(255) unique,
+        role enum ('ROLE_ADMIN','ROLE_USER'),
+        primary key (credential_id)
+    )
+Hibernate: 
+    create table credentials (
+        credential_id integer generated by default as identity,
+        is_account_non_expired boolean,
+        is_account_non_locked boolean,
+        is_credentials_non_expired boolean,
+        is_enabled boolean,
+        user_id integer not null unique,
+        created_at timestamp(6) with time zone,
+        updated_at timestamp(6) with time zone,
+        password varchar(255),
+        username varchar(255) unique,
+        role enum ('ROLE_ADMIN','ROLE_USER'),
+        primary key (credential_id)
+    )
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    create table users (
+        email_subscription boolean,
+        marketing_consent boolean,
+        newsletter_subscription boolean,
+        sms_subscription boolean,
+        user_id integer generated by default as identity,
+        created_at timestamp(6) with time zone,
+        updated_at timestamp(6) with time zone,
+        email varchar(255),
+        first_name varchar(255),
+        image_url varchar(255),
+        last_name varchar(255),
+        phone varchar(255),
+        primary key (user_id)
+    )
+Hibernate: 
+    create table users (
+        email_subscription boolean,
+        marketing_consent boolean,
+        newsletter_subscription boolean,
+        sms_subscription boolean,
+        user_id integer generated by default as identity,
+        created_at timestamp(6) with time zone,
+        updated_at timestamp(6) with time zone,
+        email varchar(255),
+        first_name varchar(255),
+        image_url varchar(255),
+        last_name varchar(255),
+        phone varchar(255),
+        primary key (user_id)
+    )
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    create table verification_tokens (
+        credential_id integer,
+        expire_date date,
+        verification_token_id integer generated by default as identity,
+        created_at timestamp(6) with time zone,
+        updated_at timestamp(6) with time zone,
+        verif_token varchar(255),
+        primary key (verification_token_id)
+    )
+Hibernate: 
+    create table verification_tokens (
+        credential_id integer,
+        expire_date date,
+        verification_token_id integer generated by default as identity,
+        created_at timestamp(6) with time zone,
+        updated_at timestamp(6) with time zone,
+        verif_token varchar(255),
+        primary key (verification_token_id)
+    )
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    create table wishlists (
+        product_id integer not null,
+        user_id integer not null,
+        wishlist_id integer generated by default as identity,
+        created_at timestamp(6) with time zone,
+        updated_at timestamp(6) with time zone,
+        primary key (wishlist_id)
+    )
+Hibernate: 
+    create table wishlists (
+        product_id integer not null,
+        user_id integer not null,
+        wishlist_id integer generated by default as identity,
+        created_at timestamp(6) with time zone,
+        updated_at timestamp(6) with time zone,
+        primary key (wishlist_id)
+    )
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table if exists address 
+       add constraint FK6i66ijb8twgcqtetl8eeeed6v 
+       foreign key (user_id) 
+       references users
+Hibernate: 
+    alter table if exists address 
+       add constraint FK6i66ijb8twgcqtetl8eeeed6v 
+       foreign key (user_id) 
+       references users
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table if exists credentials 
+       add constraint FKcbcgksvnqvqxrrc4dwv3qys65 
+       foreign key (user_id) 
+       references users
+Hibernate: 
+    alter table if exists credentials 
+       add constraint FKcbcgksvnqvqxrrc4dwv3qys65 
+       foreign key (user_id) 
+       references users
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table if exists verification_tokens 
+       add constraint FKa7vg3ta3beiq1umqtpvn8b5k2 
+       foreign key (credential_id) 
+       references credentials
+Hibernate: 
+    alter table if exists verification_tokens 
+       add constraint FKa7vg3ta3beiq1umqtpvn8b5k2 
+       foreign key (credential_id) 
+       references credentials
+2025-06-29 10:50:35 [restartedMain] DEBUG org.hibernate.SQL - 
+    alter table if exists wishlists 
+       add constraint FK330pyw2el06fn5g28ypyljt16 
+       foreign key (user_id) 
+       references users
+Hibernate: 
+    alter table if exists wishlists 
+       add constraint FK330pyw2el06fn5g28ypyljt16 
+       foreign key (user_id) 
+       references users
+2025-06-29 10:50:35 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-29 10:50:36 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-06-29 10:50:36 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-29 10:50:36 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 46 mappings in 'requestMappingHandlerMapping'
+2025-06-29 10:50:36 [restartedMain] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2025-06-29 10:50:36 [restartedMain] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-06-29 10:50:36 [restartedMain] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-06-29 10:50:36 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-06-29 10:50:36 [restartedMain] INFO  o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2025-06-29 10:50:36 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-06-29 10:50:36 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8700 (http) with context path '/user-service'
+2025-06-29 10:50:36 [restartedMain] INFO  c.p.u.UserServiceApplication - Started UserServiceApplication in 2.975 seconds (process running for 3.217)
+2025-06-29 10:51:20 [http-nio-8700-exec-1] INFO  o.a.c.c.C.[.[.[/user-service] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-29 10:51:20 [http-nio-8700-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@318a0735
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@480daf19
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-06-29 10:51:20 [http-nio-8700-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - POST "/user-service/api/users", parameters={}
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.pm.userservice.controller.UserController#save(UserDto)
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [UserDto(userId=null, firstName=John, lastName=Doe, imageUrl=null, email=john.doe@example.com, phone= (truncated)...]
+2025-06-29 10:51:20 [http-nio-8700-exec-1] INFO  c.p.u.controller.UserController - Saving new user: john.doe@example.com
+2025-06-29 10:51:20 [http-nio-8700-exec-1] INFO  c.p.u.service.impl.UserServiceImpl - Saving new user: john.doe@example.com
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.pm.userservice.model.User */insert 
+    into
+        users (created_at, email, email_subscription, first_name, image_url, last_name, marketing_consent, newsletter_subscription, phone, sms_subscription, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default)
+Hibernate: 
+    /* insert for
+        com.pm.userservice.model.User */insert 
+    into
+        users (created_at, email, email_subscription, first_name, image_url, last_name, marketing_consent, newsletter_subscription, phone, sms_subscription, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default)
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [UserDto(userId=1, firstName=John, lastName=Doe, imageUrl=null, email=john.doe@example.com, phone=+12 (truncated)...]
+2025-06-29 10:51:20 [http-nio-8700-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 201 CREATED
+2025-06-29 10:51:35 [http-nio-8700-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/user-service/api/users", parameters={}
+2025-06-29 10:51:35 [http-nio-8700-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.pm.userservice.controller.UserController#findAll()
+2025-06-29 10:51:35 [http-nio-8700-exec-2] INFO  c.p.u.controller.UserController - Fetching all users
+2025-06-29 10:51:35 [http-nio-8700-exec-2] INFO  c.p.u.service.impl.UserServiceImpl - Fetching all users
+2025-06-29 10:51:35 [http-nio-8700-exec-2] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.user_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.email_subscription,
+        u1_0.first_name,
+        u1_0.image_url,
+        u1_0.last_name,
+        u1_0.marketing_consent,
+        u1_0.newsletter_subscription,
+        u1_0.phone,
+        u1_0.sms_subscription,
+        u1_0.updated_at 
+    from
+        users u1_0
+Hibernate: 
+    /* <criteria> */ select
+        u1_0.user_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.email_subscription,
+        u1_0.first_name,
+        u1_0.image_url,
+        u1_0.last_name,
+        u1_0.marketing_consent,
+        u1_0.newsletter_subscription,
+        u1_0.phone,
+        u1_0.sms_subscription,
+        u1_0.updated_at 
+    from
+        users u1_0
+2025-06-29 10:51:35 [http-nio-8700-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.credential_id,
+        c1_0.created_at,
+        c1_0.is_account_non_expired,
+        c1_0.is_account_non_locked,
+        c1_0.is_credentials_non_expired,
+        c1_0.is_enabled,
+        c1_0.password,
+        c1_0.role,
+        c1_0.updated_at,
+        c1_0.user_id,
+        c1_0.username 
+    from
+        credentials c1_0 
+    where
+        c1_0.user_id=?
+Hibernate: 
+    select
+        c1_0.credential_id,
+        c1_0.created_at,
+        c1_0.is_account_non_expired,
+        c1_0.is_account_non_locked,
+        c1_0.is_credentials_non_expired,
+        c1_0.is_enabled,
+        c1_0.password,
+        c1_0.role,
+        c1_0.updated_at,
+        c1_0.user_id,
+        c1_0.username 
+    from
+        credentials c1_0 
+    where
+        c1_0.user_id=?
+2025-06-29 10:51:35 [http-nio-8700-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        a1_0.user_id,
+        a1_0.address_id,
+        a1_0.city,
+        a1_0.created_at,
+        a1_0.full_address,
+        a1_0.postal_code,
+        a1_0.updated_at 
+    from
+        address a1_0 
+    where
+        a1_0.user_id=?
+Hibernate: 
+    select
+        a1_0.user_id,
+        a1_0.address_id,
+        a1_0.city,
+        a1_0.created_at,
+        a1_0.full_address,
+        a1_0.postal_code,
+        a1_0.updated_at 
+    from
+        address a1_0 
+    where
+        a1_0.user_id=?
+2025-06-29 10:51:35 [http-nio-8700-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        w1_0.user_id,
+        w1_0.wishlist_id,
+        w1_0.created_at,
+        w1_0.product_id,
+        w1_0.updated_at 
+    from
+        wishlists w1_0 
+    where
+        w1_0.user_id=?
+Hibernate: 
+    select
+        w1_0.user_id,
+        w1_0.wishlist_id,
+        w1_0.created_at,
+        w1_0.product_id,
+        w1_0.updated_at 
+    from
+        wishlists w1_0 
+    where
+        w1_0.user_id=?
+2025-06-29 10:51:35 [http-nio-8700-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-06-29 10:51:35 [http-nio-8700-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [com.pm.userservice.dto.response.collection.CollectionResponse@495ef2ac]
+2025-06-29 10:51:35 [http-nio-8700-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-06-29 10:51:48 [http-nio-8700-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - POST "/user-service/api/wishlists", parameters={}
+2025-06-29 10:51:48 [http-nio-8700-exec-4] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2025-06-29 10:51:48 [http-nio-8700-exec-4] DEBUG o.s.w.s.r.ResourceHttpRequestHandler - Resource not found
+2025-06-29 10:51:48 [http-nio-8700-exec-4] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Using @ExceptionHandler com.pm.userservice.exception.ApiExceptionHandler#handleGeneralException(Exception, HttpServletRequest)
+2025-06-29 10:51:48 [http-nio-8700-exec-4] ERROR c.p.u.exception.ApiExceptionHandler - Unhandled exception: 
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/wishlists.
+	at org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585)
+	at org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-06-29 10:51:48 [http-nio-8700-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-06-29 10:51:48 [http-nio-8700-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [ExceptionMsg(timestamp=2025-06-29T10:51:48.642258+07:00[Asia/Ho_Chi_Minh], status=500, error=Interna (truncated)...]
+2025-06-29 10:51:48 [http-nio-8700-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/wishlists.]
+2025-06-29 10:51:48 [http-nio-8700-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 500 INTERNAL_SERVER_ERROR
+2025-06-29 10:52:05 [http-nio-8700-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - POST "/user-service/api/users/1/wishlist?productId=123", parameters={masked}
+2025-06-29 10:52:05 [http-nio-8700-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.pm.userservice.controller.WishlistController#addToWishlist(Integer, Integer)
+2025-06-29 10:52:05 [http-nio-8700-exec-5] INFO  c.p.u.controller.WishlistController - Adding product 123 to wishlist for user 1
+2025-06-29 10:52:05 [http-nio-8700-exec-5] INFO  c.p.u.s.impl.WishlistServiceImpl - Adding product 123 to wishlist for user 1
+2025-06-29 10:52:05 [http-nio-8700-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        c1_0.credential_id,
+        c1_0.created_at,
+        c1_0.is_account_non_expired,
+        c1_0.is_account_non_locked,
+        c1_0.is_credentials_non_expired,
+        c1_0.is_enabled,
+        c1_0.password,
+        c1_0.role,
+        c1_0.updated_at,
+        c1_0.user_id,
+        c1_0.username,
+        u1_0.email,
+        u1_0.email_subscription,
+        u1_0.first_name,
+        u1_0.image_url,
+        u1_0.last_name,
+        u1_0.marketing_consent,
+        u1_0.newsletter_subscription,
+        u1_0.phone,
+        u1_0.sms_subscription,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    left join
+        credentials c1_0 
+            on u1_0.user_id=c1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        c1_0.credential_id,
+        c1_0.created_at,
+        c1_0.is_account_non_expired,
+        c1_0.is_account_non_locked,
+        c1_0.is_credentials_non_expired,
+        c1_0.is_enabled,
+        c1_0.password,
+        c1_0.role,
+        c1_0.updated_at,
+        c1_0.user_id,
+        c1_0.username,
+        u1_0.email,
+        u1_0.email_subscription,
+        u1_0.first_name,
+        u1_0.image_url,
+        u1_0.last_name,
+        u1_0.marketing_consent,
+        u1_0.newsletter_subscription,
+        u1_0.phone,
+        u1_0.sms_subscription,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    left join
+        credentials c1_0 
+            on u1_0.user_id=c1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-06-29 10:52:05 [http-nio-8700-exec-5] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        w1_0.wishlist_id 
+    from
+        wishlists w1_0 
+    where
+        w1_0.user_id=? 
+        and w1_0.product_id=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    /* <criteria> */ select
+        w1_0.wishlist_id 
+    from
+        wishlists w1_0 
+    where
+        w1_0.user_id=? 
+        and w1_0.product_id=? 
+    fetch
+        first ? rows only
+2025-06-29 10:52:05 [http-nio-8700-exec-5] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.pm.userservice.model.Wishlist */insert 
+    into
+        wishlists (created_at, product_id, updated_at, user_id, wishlist_id) 
+    values
+        (?, ?, ?, ?, default)
+Hibernate: 
+    /* insert for
+        com.pm.userservice.model.Wishlist */insert 
+    into
+        wishlists (created_at, product_id, updated_at, user_id, wishlist_id) 
+    values
+        (?, ?, ?, ?, default)
+2025-06-29 10:52:05 [http-nio-8700-exec-5] INFO  c.p.u.s.impl.WishlistServiceImpl - Successfully added product 123 to wishlist for user 1
+2025-06-29 10:52:05 [http-nio-8700-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-06-29 10:52:05 [http-nio-8700-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [WishlistDto(wishlistId=1, productId=123, userId=1, createdAt=null)]
+2025-06-29 10:52:05 [http-nio-8700-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 201 CREATED
+2025-06-29 10:53:17 [http-nio-8700-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - POST "/user-service/api/users/1/addresses", parameters={}
+2025-06-29 10:53:17 [http-nio-8700-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.pm.userservice.controller.UserController#addUserAddress(Integer, AddressDto)
+2025-06-29 10:53:17 [http-nio-8700-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [AddressDto(addressId=null, fullAddress=123 Main St, postalCode=10001, city=New York, userId=null)]
+2025-06-29 10:53:17 [http-nio-8700-exec-7] INFO  c.p.u.controller.UserController - Adding address for user ID: 1
+2025-06-29 10:53:17 [http-nio-8700-exec-7] INFO  c.p.u.service.impl.UserServiceImpl - Adding address for user ID: 1
+2025-06-29 10:53:17 [http-nio-8700-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        c1_0.credential_id,
+        c1_0.created_at,
+        c1_0.is_account_non_expired,
+        c1_0.is_account_non_locked,
+        c1_0.is_credentials_non_expired,
+        c1_0.is_enabled,
+        c1_0.password,
+        c1_0.role,
+        c1_0.updated_at,
+        c1_0.user_id,
+        c1_0.username,
+        u1_0.email,
+        u1_0.email_subscription,
+        u1_0.first_name,
+        u1_0.image_url,
+        u1_0.last_name,
+        u1_0.marketing_consent,
+        u1_0.newsletter_subscription,
+        u1_0.phone,
+        u1_0.sms_subscription,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    left join
+        credentials c1_0 
+            on u1_0.user_id=c1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        c1_0.credential_id,
+        c1_0.created_at,
+        c1_0.is_account_non_expired,
+        c1_0.is_account_non_locked,
+        c1_0.is_credentials_non_expired,
+        c1_0.is_enabled,
+        c1_0.password,
+        c1_0.role,
+        c1_0.updated_at,
+        c1_0.user_id,
+        c1_0.username,
+        u1_0.email,
+        u1_0.email_subscription,
+        u1_0.first_name,
+        u1_0.image_url,
+        u1_0.last_name,
+        u1_0.marketing_consent,
+        u1_0.newsletter_subscription,
+        u1_0.phone,
+        u1_0.sms_subscription,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    left join
+        credentials c1_0 
+            on u1_0.user_id=c1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-06-29 10:53:18 [http-nio-8700-exec-7] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.pm.userservice.model.Address */insert 
+    into
+        address (city, created_at, full_address, postal_code, updated_at, user_id, address_id) 
+    values
+        (?, ?, ?, ?, ?, ?, default)
+Hibernate: 
+    /* insert for
+        com.pm.userservice.model.Address */insert 
+    into
+        address (city, created_at, full_address, postal_code, updated_at, user_id, address_id) 
+    values
+        (?, ?, ?, ?, ?, ?, default)
+2025-06-29 10:53:18 [http-nio-8700-exec-7] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-06-29 10:53:18 [http-nio-8700-exec-7] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [AddressDto(addressId=1, fullAddress=123 Main St, postalCode=10001, city=New York, userId=1)]
+2025-06-29 10:53:18 [http-nio-8700-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 201 CREATED
+2025-06-29 10:54:45 [http-nio-8700-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - POST "/user-service/api/users/1/subscribe/email", parameters={}
+2025-06-29 10:54:45 [http-nio-8700-exec-9] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.pm.userservice.controller.UserController#subscribeToEmail(Integer)
+2025-06-29 10:54:45 [http-nio-8700-exec-9] INFO  c.p.u.controller.UserController - Subscribing user 1 to email notifications
+2025-06-29 10:54:45 [http-nio-8700-exec-9] INFO  c.p.u.service.impl.UserServiceImpl - Subscribing user 1 to email notifications
+2025-06-29 10:54:45 [http-nio-8700-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        c1_0.credential_id,
+        c1_0.created_at,
+        c1_0.is_account_non_expired,
+        c1_0.is_account_non_locked,
+        c1_0.is_credentials_non_expired,
+        c1_0.is_enabled,
+        c1_0.password,
+        c1_0.role,
+        c1_0.updated_at,
+        c1_0.user_id,
+        c1_0.username,
+        u1_0.email,
+        u1_0.email_subscription,
+        u1_0.first_name,
+        u1_0.image_url,
+        u1_0.last_name,
+        u1_0.marketing_consent,
+        u1_0.newsletter_subscription,
+        u1_0.phone,
+        u1_0.sms_subscription,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    left join
+        credentials c1_0 
+            on u1_0.user_id=c1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        c1_0.credential_id,
+        c1_0.created_at,
+        c1_0.is_account_non_expired,
+        c1_0.is_account_non_locked,
+        c1_0.is_credentials_non_expired,
+        c1_0.is_enabled,
+        c1_0.password,
+        c1_0.role,
+        c1_0.updated_at,
+        c1_0.user_id,
+        c1_0.username,
+        u1_0.email,
+        u1_0.email_subscription,
+        u1_0.first_name,
+        u1_0.image_url,
+        u1_0.last_name,
+        u1_0.marketing_consent,
+        u1_0.newsletter_subscription,
+        u1_0.phone,
+        u1_0.sms_subscription,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    left join
+        credentials c1_0 
+            on u1_0.user_id=c1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-06-29 10:54:45 [http-nio-8700-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        a1_0.user_id,
+        a1_0.address_id,
+        a1_0.city,
+        a1_0.created_at,
+        a1_0.full_address,
+        a1_0.postal_code,
+        a1_0.updated_at 
+    from
+        address a1_0 
+    where
+        a1_0.user_id=?
+Hibernate: 
+    select
+        a1_0.user_id,
+        a1_0.address_id,
+        a1_0.city,
+        a1_0.created_at,
+        a1_0.full_address,
+        a1_0.postal_code,
+        a1_0.updated_at 
+    from
+        address a1_0 
+    where
+        a1_0.user_id=?
+2025-06-29 10:54:45 [http-nio-8700-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        w1_0.user_id,
+        w1_0.wishlist_id,
+        w1_0.created_at,
+        w1_0.product_id,
+        w1_0.updated_at 
+    from
+        wishlists w1_0 
+    where
+        w1_0.user_id=?
+Hibernate: 
+    select
+        w1_0.user_id,
+        w1_0.wishlist_id,
+        w1_0.created_at,
+        w1_0.product_id,
+        w1_0.updated_at 
+    from
+        wishlists w1_0 
+    where
+        w1_0.user_id=?
+2025-06-29 10:54:45 [http-nio-8700-exec-9] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-06-29 10:54:45 [http-nio-8700-exec-9] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [UserDto(userId=1, firstName=John, lastName=Doe, imageUrl=null, email=john.doe@example.com, phone=+12 (truncated)...]
+2025-06-29 10:54:45 [http-nio-8700-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-06-29 10:55:15 [http-nio-8700-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/user-service/api/users/1/profile", parameters={}
+2025-06-29 10:55:15 [http-nio-8700-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.pm.userservice.controller.UserController#getUserProfile(Integer)
+2025-06-29 10:55:15 [http-nio-8700-exec-1] INFO  c.p.u.controller.UserController - Fetching profile for user ID: 1
+2025-06-29 10:55:15 [http-nio-8700-exec-1] INFO  c.p.u.service.impl.UserServiceImpl - Fetching profile for user ID: 1
+2025-06-29 10:55:15 [http-nio-8700-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        c1_0.credential_id,
+        c1_0.created_at,
+        c1_0.is_account_non_expired,
+        c1_0.is_account_non_locked,
+        c1_0.is_credentials_non_expired,
+        c1_0.is_enabled,
+        c1_0.password,
+        c1_0.role,
+        c1_0.updated_at,
+        c1_0.user_id,
+        c1_0.username,
+        u1_0.email,
+        u1_0.email_subscription,
+        u1_0.first_name,
+        u1_0.image_url,
+        u1_0.last_name,
+        u1_0.marketing_consent,
+        u1_0.newsletter_subscription,
+        u1_0.phone,
+        u1_0.sms_subscription,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    left join
+        credentials c1_0 
+            on u1_0.user_id=c1_0.user_id 
+    where
+        u1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        c1_0.credential_id,
+        c1_0.created_at,
+        c1_0.is_account_non_expired,
+        c1_0.is_account_non_locked,
+        c1_0.is_credentials_non_expired,
+        c1_0.is_enabled,
+        c1_0.password,
+        c1_0.role,
+        c1_0.updated_at,
+        c1_0.user_id,
+        c1_0.username,
+        u1_0.email,
+        u1_0.email_subscription,
+        u1_0.first_name,
+        u1_0.image_url,
+        u1_0.last_name,
+        u1_0.marketing_consent,
+        u1_0.newsletter_subscription,
+        u1_0.phone,
+        u1_0.sms_subscription,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    left join
+        credentials c1_0 
+            on u1_0.user_id=c1_0.user_id 
+    where
+        u1_0.user_id=?
+2025-06-29 10:55:15 [http-nio-8700-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        a1_0.user_id,
+        a1_0.address_id,
+        a1_0.city,
+        a1_0.created_at,
+        a1_0.full_address,
+        a1_0.postal_code,
+        a1_0.updated_at 
+    from
+        address a1_0 
+    where
+        a1_0.user_id=?
+Hibernate: 
+    select
+        a1_0.user_id,
+        a1_0.address_id,
+        a1_0.city,
+        a1_0.created_at,
+        a1_0.full_address,
+        a1_0.postal_code,
+        a1_0.updated_at 
+    from
+        address a1_0 
+    where
+        a1_0.user_id=?
+2025-06-29 10:55:15 [http-nio-8700-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        w1_0.user_id,
+        w1_0.wishlist_id,
+        w1_0.created_at,
+        w1_0.product_id,
+        w1_0.updated_at 
+    from
+        wishlists w1_0 
+    where
+        w1_0.user_id=?
+Hibernate: 
+    select
+        w1_0.user_id,
+        w1_0.wishlist_id,
+        w1_0.created_at,
+        w1_0.product_id,
+        w1_0.updated_at 
+    from
+        wishlists w1_0 
+    where
+        w1_0.user_id=?
+2025-06-29 10:55:15 [http-nio-8700-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-06-29 10:55:15 [http-nio-8700-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [UserProfileDto(userId=1, firstName=John, lastName=Doe, imageUrl=null, email=john.doe@example.com, ph (truncated)...]
+2025-06-29 10:55:15 [http-nio-8700-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
