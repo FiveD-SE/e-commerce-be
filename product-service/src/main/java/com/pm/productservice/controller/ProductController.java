@@ -57,7 +57,7 @@ public class ProductController {
             @Parameter(description = "Page size")
             @RequestParam(value = "size", defaultValue = "10") int size,
             
-            @Parameter(description = "Sort field")
+            @Parameter(description = "Sort field (name, price, salesCount, createdAt, updatedAt)")
             @RequestParam(value = "sort", defaultValue = "name") String sort,
             
             @Parameter(description = "Sort direction (asc/desc)")
@@ -143,5 +143,38 @@ public class ProductController {
         log.info("Deleting product with ID: {}", id);
         productService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/top-selling")
+    @Operation(summary = "Get top selling products")
+    public ResponseEntity<CollectionResponse<ProductDto>> findTopSellingProducts(
+            @Parameter(description = "Page number (0-based)")
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @Parameter(description = "Page size")
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        
+        log.info("Fetching top selling products, page: {}, size: {}", page, size);
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(productService.findTopSellingProducts(pageable));
+    }
+
+    @PutMapping("/{id}/sales")
+    @Operation(summary = "Update sales count for a product")
+    public ResponseEntity<Void> updateSalesCount(
+            @PathVariable @NotNull(message = "Product ID must not be null") @Valid UUID id,
+            @RequestParam @NotNull(message = "Additional sales must not be null") Integer additionalSales) {
+        log.info("Updating sales count for product ID: {} with additional sales: {}", id, additionalSales);
+        productService.updateSalesCount(id, additionalSales);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/sku/{sku}/sales")
+    @Operation(summary = "Update sales count for a product by SKU")
+    public ResponseEntity<Void> updateSalesCountBySku(
+            @PathVariable @NotNull(message = "SKU must not be null") String sku,
+            @RequestParam @NotNull(message = "Additional sales must not be null") Integer additionalSales) {
+        log.info("Updating sales count for product SKU: {} with additional sales: {}", sku, additionalSales);
+        productService.updateSalesCount(sku, additionalSales);
+        return ResponseEntity.ok().build();
     }
 }

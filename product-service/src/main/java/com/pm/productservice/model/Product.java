@@ -46,4 +46,8 @@ public final class Product extends AbstractMappedEntity implements Serializable 
 
     @Column(name = "attributes", columnDefinition = "JSON")
     private String attributes;
+
+    @Column(name = "sales_count", nullable = false)
+    @Builder.Default
+    private Integer salesCount = 0;
 }

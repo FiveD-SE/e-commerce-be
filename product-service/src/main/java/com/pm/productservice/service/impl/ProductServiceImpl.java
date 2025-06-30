@@ -220,6 +220,48 @@ public class ProductServiceImpl implements ProductService {
         productInventoryRepository.deleteById(id);
     }
 
+    @Override
+    public void updateSalesCount(UUID productId, Integer additionalSales) {
+        log.info("Updating sales count for product ID: {} with additional sales: {}", productId, additionalSales);
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException(productId));
+        
+        int currentSales = product.getSalesCount() != null ? product.getSalesCount() : 0;
+        product.setSalesCount(currentSales + additionalSales);
+        productRepository.save(product);
+        
+        log.info("Successfully updated sales count for product ID: {}. New total: {}", productId, product.getSalesCount());
+    }
+
+    @Override
+    public void updateSalesCount(String sku, Integer additionalSales) {
+        log.info("Updating sales count for product SKU: {} with additional sales: {}", sku, additionalSales);
+        Product product = productRepository.findBySku(sku)
+                .orElseThrow(() -> new ProductNotFoundException(sku));
+        
+        int currentSales = product.getSalesCount() != null ? product.getSalesCount() : 0;
+        product.setSalesCount(currentSales + additionalSales);
+        productRepository.save(product);
+        
+        log.info("Successfully updated sales count for product SKU: {}. New total: {}", sku, product.getSalesCount());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CollectionResponse<ProductDto> findTopSellingProducts(Pageable pageable) {
+        log.info("Fetching top selling products with pagination: {}", pageable);
+        Page<Product> productsPage = productRepository.findByStatusOrderBySalesCountDesc(ProductStatus.active, pageable);
+        List<ProductDto> products = productsPage.getContent().stream()
+                .map(this::toDtoWithExtendedInfo)
+                .toList();
+        return CollectionResponse.<ProductDto>builder()
+                .data(products)
+                .totalElements((int) productsPage.getTotalElements())
+                .page(productsPage.getNumber())
+                .size(productsPage.getSize())
+                .build();
+    }
+
     private ProductDto toDtoWithExtendedInfo(Product product) {
         ProductDto dto = productMapper.toDTO(product);
         

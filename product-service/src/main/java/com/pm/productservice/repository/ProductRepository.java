@@ -57,4 +57,8 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     
     @Query("SELECT COUNT(p) FROM Product p WHERE p.brandId = :brandId AND p.status = :status")
     Long countByBrandIdAndStatus(@Param("brandId") UUID brandId, @Param("status") ProductStatus status);
+    
+    Page<Product> findByStatusOrderBySalesCountDesc(ProductStatus status, Pageable pageable);
+    
+    List<Product> findByStatusOrderBySalesCountDesc(ProductStatus status);
 }

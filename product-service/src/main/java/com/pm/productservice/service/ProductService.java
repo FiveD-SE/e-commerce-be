@@ -22,4 +22,9 @@ public interface ProductService {
     ProductDto save(ProductDto productDto);
     ProductDto update(UUID id, ProductDto productDto);
     void deleteById(UUID id);
+    
+    // Sales related methods
+    void updateSalesCount(UUID productId, Integer additionalSales);
+    void updateSalesCount(String sku, Integer additionalSales);
+    CollectionResponse<ProductDto> findTopSellingProducts(Pageable pageable);
 }

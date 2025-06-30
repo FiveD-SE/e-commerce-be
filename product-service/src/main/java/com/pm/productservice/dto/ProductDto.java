@@ -41,6 +41,11 @@ public class ProductDto {
     private ProductStatus status;
     private String attributes;
     
+    @Builder.Default
+    private Integer salesCount = 0;
+    
+    private BigDecimal totalSalesAmount;
+    
     // Inventory fields
     private Integer quantity;
     private Integer reservedQuantity;
